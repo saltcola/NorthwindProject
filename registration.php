@@ -57,7 +57,7 @@
                 <input type="text" name="phone" placeholder="Phone" required />
                 <input type="text" name="fax" placeholder="Fax" required />
                 <input type="submit" name="submit" value="Register" />
-                <a class = ".backButton" href='login.php'>Back</a> 
+                <a class = ".backButton" href='index.html'>Back</a> 
             </form>
         </div>
     <?php } ?>

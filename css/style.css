@@ -89,3 +89,25 @@ input[type='submit']:hover {
           padding-left: 8%;
 }
 
+/* Customer */
+
+.customer-header{
+    padding-top: 10%;
+    padding-left: 8%;
+}
+
+/* index*/
+
+#index-row{
+    text-align: center;
+    padding-top: 20%;
+    padding-left: 20%;
+    padding-right: 20%;
+}
+
+img{
+    background-color: white;
+    height: 512px;
+    width: 512px;
+}
+

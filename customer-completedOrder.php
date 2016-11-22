@@ -1,3 +1,12 @@
+<?php
+    //include auth.php file on all secure pages
+    //include("auth.php");
+    session_start();
+    if(!isset($_SESSION["username"])){
+        header("Location: login.php");
+        exit(); 
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,7 +39,7 @@
                 </div>
             </div>
             <div class="col-sm-8 employee-right">
-              Customer Information
+              For completed order
             </div>
         </div>
     </div>

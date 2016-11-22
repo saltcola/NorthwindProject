@@ -1,3 +1,12 @@
+<?php
+    //include auth.php file on all secure pages
+    //include("auth.php");
+    session_start();
+    if(!isset($_SESSION["username"])){
+        header("Location: login.php");
+        exit(); 
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,14 +28,14 @@
         <div class="row">
             <div class="col-sm-4 employee-left">
                 <div class="btn-group-vertical" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-editProfile.html'">Edit Profile</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-payment.html'">Edit Payment</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-completedOrder.html'">Completed Order</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-pendingOrder.html'">Pending Order</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-shoppingCart.html'">Shopping Cart</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-searchScreen.html'">Search Screen</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-quickSearch.html'">Quick Search</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='index.html'">Logout</button>
+                   <button type="button" class="btn btn-default" onClick="location.href='customer-editProfile.php'">Edit Profile</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-payment.php'">Edit Payment</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-completedOrder.php'">Completed Order</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-pendingOrder.php'">Pending Order</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-shoppingCart.php'">Shopping Cart</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-searchScreen.php'">Search Screen</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-quickSearch.php'">Quick Search</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='logout.php'">Logout</button>
                 </div>
             </div>
             <div class="col-sm-8 employee-right">

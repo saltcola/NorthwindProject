@@ -1,3 +1,12 @@
+<?php
+    //include auth.php file on all secure pages
+    //include("auth.php");
+    session_start();
+    if(!isset($_SESSION["username"])){
+        header("Location: login.php");
+        exit(); 
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,9 +39,7 @@
                 </div>
             </div>
             <div class="col-sm-8 employee-right">
-                 for quick-search
-                
-      
+              For edit profile
             </div>
         </div>
     </div>

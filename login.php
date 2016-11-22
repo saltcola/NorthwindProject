@@ -4,7 +4,7 @@
 	function redirect(){
 		//header("Location: welcome.php", true);
 		echo '<script type="text/javascript">
-           			window.location = "welcome.php"
+           			window.location = "customer-main.php"
      				 </script>';
 		exit;
 	}
