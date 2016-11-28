@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<session>
+<Localhost>
+<UserName>root</UserName>
+<NetworkType>MySQL (TCP/IP)</NetworkType>
+<Port>3306</Port>
+<HostName>localhost</HostName>
+<Password>#</Password>
+</Localhost>
+</session>

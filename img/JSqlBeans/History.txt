@@ -1,0 +1,93 @@
+HISTORY of the JSQLBeans
+-------------------------
+
+
+
+1.5    2016-08-17 (HUT RI 71)
+------------------------------
+
+- Added: Table Diagram Relation
+- Added: SQL Monitor
+- Added: Mysql Status Info
+- Added: Export Data to CSV, XML, HTML Table, LaTeX, PHP Array & JSON
+- Added: Edit data directly in Browser Data (Grid Edit)
+- Added: Browser Data Mode (Read Only, Grid Edit & Form Edit)
+- Fixed: Procedure & Function parameter view & editor error
+- Fixed: Definer error
+- Fixed: Minor bug fixed & Improvement
+- *****: Move from BSD license to GPL license
+
+
+
+
+1.4    2016-06-23
+-------------------------
+
+- Added: Bulk Table Editor Tool
+- Added: Flush Tool
+- Added: Search for Browser Data & SQL Query
+- Added: Record step to Browser Data
+- Added: Column type info to index editor
+- Added: Copy data only to Table Transfer
+- Fixed: Minor bug fixed & Improvement
+- *****: Move from apache license to BSD license
+
+
+1.3    2016-06-9
+-------------------------
+
+- Added: Transfer Tool
+- Added: Maintenance Tool
+- Added: Column Type to browse data table header
+- Added: Right click menu to table & editor
+- Added: Set Zero date to DateTime selector
+- Added: Copy DLL
+- Added: Editor Syntax Highligthing 
+- Fixed: Index editor cannot work included column with have length
+- Fixed: Minor bug fixed
+- Improved: Syntax Highligthing Engine
+
+
+
+1.2    2016-05-29
+-------------------------
+
+- Added: Create, Edit & Drop Function
+- Added: Create, Edit & Drop Procedure
+- Added: Create, Edit & Drop Event
+- Added: DLL Syntax Highligthing 
+- Added: Create View, Function, Procedure & Event to Export SQL
+- Fixed: Create Trigger Error on Export SQL
+- Fixed: Make SSH connection keep alive
+- Fixed: Minor bug fixed
+
+
+
+1.1    2016-05-18
+-------------------------
+
+- Added: views to SQL Export
+- Added: Insert, Edit & Delete Data
+- Added: Create, Edit & Drop Views
+- Fixed: Import data with error in sql files added extra
+- Fixed: Get Foreign Keys Error
+- Fixed: Display correct datetime 0000-00-00
+- Fixed: Add table column Error
+- Fixed: Data manipulation Error (SQL Query)
+- Fixed: cannot run Path Error
+- Improved: SQL Parser for Import & SQL Query
+
+
+
+1.0    2015-12-15
+-------------------------
+
+- First public release
+
+
+
+-----------------------------------------------------
+JSQLBeans project begin in Tuesday, August 18, 2015,
+using Netbeans 8.1 & Coding in Linux Mint.
+-----------------------------------------------------
+

@@ -5,7 +5,26 @@
     if(!isset($_SESSION["username"])){
         header("Location: login.php");
         exit(); 
+    }else{
+            require('db.php');
+
+            $username = $_SESSION["username"];
+            $sqlUser = "SELECT * 
+                                FROM users
+                                WHERE username = '$username' ";
+            
+            $result = NULL;
+            $result = $mysqlConnection->query($sqlUser);
+
+            if (!$result) {
+                throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+            } else {
+                $row = $result->fetch_assoc();
+            }
+
+            $mysqlConnection->close();
     }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +33,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Customer</title>
+    <title>Customer Profile</title>
     <!-- Local Css file -->
     <link rel="stylesheet" href="css/style.css" />
     <!-- Bootstrap -->
@@ -26,7 +45,6 @@
 <body>
     <div class="continer">
         <div class = "row customer-header">
-            <p>Welcome <?php echo $_SESSION['username']; ?>!</p>
         </div>
         <div class="row">
             <div class="col-sm-4 employee-left">
@@ -42,7 +60,18 @@
                 </div>
             </div>
             <div class="col-sm-8 employee-right">
-              Customer Information
+                <p><strong>Name:                   </strong><?php echo $row['fName'] ?> <?php echo $row['lName'] ?></p>
+                <p><strong>Company Name:  </strong> <?php echo $row['companyName'] ?> </p>
+                <p><strong>Username:           </strong> <?php echo $row['username'] ?> </p>
+                <p><strong>Email:                   </strong> <?php echo $row['email'] ?> </p>
+                <p><strong>Address:               </strong> <?php echo $row['address'] ?> </p>
+                <p><strong>City:                     </strong> <?php echo $row['city'] ?> </p>
+                <p><strong>State:                   </strong> <?php echo $row['state'] ?> </p>
+                <p><strong>Zipcode:               </strong> <?php echo $row['postalCode'] ?> </p>
+                <p><strong>Country:               </strong> <?php echo $row['country'] ?> </p>
+                <p><strong>Phone:                 </strong> <?php echo $row['phone'] ?> </p>
+                <p><strong>Fax:                      </strong> <?php echo $row['fax'] ?> </p>
+                                               
             </div>
         </div>
     </div>

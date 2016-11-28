@@ -1,0 +1,19 @@
+Installation
+
+To run JSqlBeans you need Java Runtime Environment (JRE) 1.7 or above installed on your system. 
+Download the latest JRE from Oracle http://www.oracle.com/technetwork/java/javase/downloads/index.html
+
+Windows
+
+Download JSqlBeans for Windows (zip). 
+You can extract jsqlbeansxx.zip where you like. for example, extract to C:\JSqlBeans 
+To run it, just double click JSqlBeans.bat or directly double click JSqlBeans.jar.
+
+Linux
+
+Download JSqlBeans for Linux (tar.gz). 
+You can extract jsqlbeansxx.tar.gz where you like. for example, extract to directory /opt/ 
+Open terminal write tar -xvzf jsqlbeansxx.tar.gz -C /opt/ then cd /opt/JSqlBeans 
+To run it, in terminal write java -jar JSqlBeans.jar or sh JSqlBeans.sh
+
+Mac

@@ -76,7 +76,6 @@ input[type='submit']:hover {
 }
 
 .employee-left {
-
      padding-top: 10%;
 }
 
@@ -98,9 +97,16 @@ input[type='submit']:hover {
 
 /* index*/
 
-#index-row{
+#index-row-1{
     text-align: center;
     padding-top: 20%;
+    padding-left: 20%;
+    padding-right: 20%;
+    padding-bottom: 15px;
+}
+
+#index-row-2{
+    text-align: center;
     padding-left: 20%;
     padding-right: 20%;
 }

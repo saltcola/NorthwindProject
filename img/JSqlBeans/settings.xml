@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<entry key="LookandFeel">Metal</entry>
+<entry key="BrowseDataMode">0</entry>
+<entry key="LocalHost">5566</entry>
+<entry key="WindowWidth">1020</entry>
+<entry key="Themes">Smart</entry>
+<entry key="WindowHeight">618</entry>
+</properties>
