@@ -36,7 +36,7 @@
                     <button type="button" class="btn btn-default" onClick="location.href='customer-shoppingCart.php'">Shopping Cart</button>
                     <button type="button" class="btn btn-default" onClick="location.href='customer-searchScreen.php'">Search Screen</button>
                     <button type="button" class="btn btn-default" onClick="location.href='customer-quickSearch.php'">Quick Search</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='index.html'">Logout</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='logout.php'">Logout</button>
                 </div>
             </div>
             <div class="col-sm-8 employee-right">

@@ -10,7 +10,20 @@
         require('db.php');
         // If form submitted, insert values into the database.
         if (isset($_REQUEST['username'])){
+
             $username = $_POST['username'];
+            $checkQuery = "SELECT * FROM customers WHERE CustomerID = '".$username."' ";
+            $checkResult = NULL;
+            $checkResult = $mysqlConnection->query($checkQuery);
+            $count = $checkResult-> num_rows;
+
+            if($count > 0){
+                echo "<div class='form'>
+                        <h3>Sorry! This Username already exists!</h3>
+                        <br/>Click here to <a href='registration.php'>Back</a></div>";  
+                
+            }
+
             $email = $_POST['email'];
             $password = $_POST['password'];
             $trn_date = date("Y-m-d H:i:s");
@@ -25,8 +38,8 @@
             $phone = $_POST['phone'];
             $fax = $_POST['fax'];
 
-            $query = "INSERT into `users` (username, password, email, trn_date, fName, 
-            lName, companyName, address, city, state, postalCode, country, phone, fax)
+            $query = "INSERT into `customers` (CustomerID, Password, Email, trn_date, fName, 
+            lName, companyName, Address, City, Region, PostalCode, Country, Phone, Fax)
             VALUES ('$username', '".md5($password)."', '$email', '$trn_date', '$fName', '$lName', 
             '$companyName', '$address', '$city', '$state', '$postalCode', '$country', '$phone', '$fax')";
 

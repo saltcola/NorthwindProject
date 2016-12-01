@@ -22,7 +22,7 @@
 		if (isset($_POST['username'])){
 			$username = $_POST['username'];
 			$password = $_POST['password'];
-		      $query = "SELECT * FROM `users` WHERE username='$username' and password='".md5($password)."'";
+		      $query = "SELECT * FROM `customers` WHERE CustomerID='$username' and Password='".md5($password)."'";
 			$result = $mysqlConnection->query($query) or die(mysql_error());
 			$rows = mysqli_num_rows($result);
 			

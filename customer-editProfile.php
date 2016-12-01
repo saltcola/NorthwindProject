@@ -10,8 +10,8 @@
 
         $username = $_SESSION["username"];
         $sqlUser = "SELECT * 
-                            FROM users
-                            WHERE username = '$username' ";
+                            FROM customers
+                            WHERE CustomerID = '$username' ";
         
         $result = NULL;
         $result = $mysqlConnection->query($sqlUser);
@@ -55,7 +55,7 @@
                     <button type="button" class="btn btn-default" onClick="location.href='customer-shoppingCart.php'">Shopping Cart</button>
                     <button type="button" class="btn btn-default" onClick="location.href='customer-searchScreen.php'">Search Screen</button>
                     <button type="button" class="btn btn-default" onClick="location.href='customer-quickSearch.php'">Quick Search</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='index.php'">Logout</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='logout.php'">Logout</button>
                 </div>
             </div>
             <div class="col-sm-8 employee-right">
@@ -78,21 +78,21 @@
                     $phone = $_POST['phone'];
                     $fax = $_POST['fax'];
 
-                    $query = "UPDATE `users` 
-                                    SET username = '$username', 
-                                            email = '$email', 
+                    $query = "UPDATE `customers` 
+                                    SET CustomerID = '$username', 
+                                            Email = '$email', 
                                             trn_date = '$trn_date', 
                                             fName = '$fName', 
                                             lName = '$lName', 
                                             companyName = '$companyName', 
-                                            address = '$address', 
-                                            city = '$city', 
-                                            state = '$state', 
-                                            postalCode = '$postalCode', 
-                                            country = '$country', 
-                                            phone = '$phone', 
-                                            fax = '$fax'
-                                    WHERE username = '$username' 
+                                            Address = '$address', 
+                                            City = '$city', 
+                                            Region = '$state', 
+                                            PostalCode = '$postalCode', 
+                                            Country = '$country', 
+                                            Phone = '$phone', 
+                                            Fax = '$fax'
+                                    WHERE CustomerID = '$username' 
                                     ";
 
                     $result = NULL;
@@ -131,47 +131,47 @@
 
                 <div class="form-group">
                     <label>Username</label>
-                    <input type="text" name="username" class="form-control" placeholder="username" value= <?php echo $row['username'] ?> required />
+                    <input type="text" name="username" class="form-control" placeholder="username" value= <?php echo $row['CustomerID'] ?> required />
                 </div>
 
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" name="email" class="form-control" placeholder="Email" value= <?php echo $row['email'] ?> required />
+                    <input type="email" name="email" class="form-control" placeholder="Email" value= <?php echo $row['Email'] ?> required />
                 </div>
 
                 <div class="form-group">
                     <label>Address</label>
-                    <input type="text" name="address"  class="form-control"  placeholder="Address" value= "<?php echo $row['address'] ?>  " required />
+                    <input type="text" name="address"  class="form-control"  placeholder="Address" value= "<?php echo $row['Address'] ?>  " required />
                 </div>               
 
                 <div class="form-group">
                     <label>City</label>
-                    <input type="text" class="form-control" name="city" placeholder="City" value= <?php echo $row['city'] ?> required />
+                    <input type="text" class="form-control" name="city" placeholder="City" value= <?php echo $row['City'] ?> required />
                 </div>
 
                 <div class="form-group">
                     <label>State</label>
-                    <input type="text" class="form-control" name="state" placeholder="State" value= <?php echo $row['state'] ?> required />
+                    <input type="text" class="form-control" name="state" placeholder="State" value= <?php echo $row['Region'] ?> required />
                 </div>
 
                 <div class="form-group">
                     <label>Country</label>
-                    <input type="text" class="form-control" name="country" placeholder="Country" value= <?php echo $row['country'] ?> required />
+                    <input type="text" class="form-control" name="country" placeholder="Country" value= <?php echo $row['Country'] ?> required />
                 </div>
 
                 <div class="form-group">
                     <label>Zip Code</label>
-                    <input type="text" class="form-control" name="postalCode" placeholder="Post Code" value= <?php echo $row['postalCode'] ?> required />                
+                    <input type="text" class="form-control" name="postalCode" placeholder="Post Code" value= <?php echo $row['PostalCode'] ?> required />                
                 </div>
 
                 <div class="form-group">
                     <label>Phone</label>
-                    <input type="text" class="form-control" name="phone" placeholder="Phone" value= <?php echo $row['phone'] ?> required />
+                    <input type="text" class="form-control" name="phone" placeholder="Phone" value= <?php echo $row['Phone'] ?> required />
                 </div>
 
                 <div class="form-group">
                     <label>Fax</label>
-                   <input type="text"  class="form-control" name="fax" placeholder="Fax" value= <?php echo $row['fax'] ?> required />
+                   <input type="text"  class="form-control" name="fax" placeholder="Fax" value= <?php echo $row['Fax'] ?> required />
                 </div>
 
                 <input type="submit" name="submit" value="Edit" />

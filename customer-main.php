@@ -10,8 +10,8 @@
 
             $username = $_SESSION["username"];
             $sqlUser = "SELECT * 
-                                FROM users
-                                WHERE username = '$username' ";
+                                FROM customers
+                                WHERE CustomerID = '$username' ";
             
             $result = NULL;
             $result = $mysqlConnection->query($sqlUser);
@@ -61,16 +61,16 @@
             </div>
             <div class="col-sm-8 employee-right">
                 <p><strong>Name:                   </strong><?php echo $row['fName'] ?> <?php echo $row['lName'] ?></p>
-                <p><strong>Company Name:  </strong> <?php echo $row['companyName'] ?> </p>
-                <p><strong>Username:           </strong> <?php echo $row['username'] ?> </p>
-                <p><strong>Email:                   </strong> <?php echo $row['email'] ?> </p>
-                <p><strong>Address:               </strong> <?php echo $row['address'] ?> </p>
-                <p><strong>City:                     </strong> <?php echo $row['city'] ?> </p>
-                <p><strong>State:                   </strong> <?php echo $row['state'] ?> </p>
-                <p><strong>Zipcode:               </strong> <?php echo $row['postalCode'] ?> </p>
-                <p><strong>Country:               </strong> <?php echo $row['country'] ?> </p>
-                <p><strong>Phone:                 </strong> <?php echo $row['phone'] ?> </p>
-                <p><strong>Fax:                      </strong> <?php echo $row['fax'] ?> </p>
+                <p><strong>Company Name:  </strong> <?php echo $row['CompanyName'] ?> </p>
+                <p><strong>Username:           </strong> <?php echo $row['CustomerID'] ?> </p>
+                <p><strong>Email:                   </strong> <?php echo $row['Email'] ?> </p>
+                <p><strong>Address:               </strong> <?php echo $row['Address'] ?> </p>
+                <p><strong>City:                     </strong> <?php echo $row['City'] ?> </p>
+                <p><strong>State:                   </strong> <?php echo $row['Region'] ?> </p>
+                <p><strong>Zipcode:               </strong> <?php echo $row['PostalCode'] ?> </p>
+                <p><strong>Country:               </strong> <?php echo $row['Country'] ?> </p>
+                <p><strong>Phone:                 </strong> <?php echo $row['Phone'] ?> </p>
+                <p><strong>Fax:                      </strong> <?php echo $row['Fax'] ?> </p>
                                                
             </div>
         </div>
