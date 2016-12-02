@@ -144,14 +144,15 @@
                     if (!empty($_POST['AndroidPay'])){
                             $PaymentTypeID = 1;
                             $Email = $_POST['AndroidEmail'];
-                            echo $Email;
-                            echo "<br>";
+                            // echo $Email;
+                            // echo "<br>";
                             if(isset($_POST['AndroidCheck'])){
                                 $Prefered = 1;
                             }else{
                                 $Prefered =  0;
                             }
 
+                             require('db.php');
                             // Check if there the account is already exist in DB
                             $checkExistsQuery = " SELECT *
                                                         FROM customerPaymentThirdParty
@@ -159,8 +160,6 @@
                                                         AND Email = '$Email' ";
 
                             // echo $checkExistsQuery;
-                            // echo "<br>";
-                            // echo $Prefered;
                             // echo "<br>";
 
                             $checkResult = NULL;
@@ -227,26 +226,162 @@
                     if (!empty($_POST['ApplePay'])){
                             $PaymentTypeID = 2;
                             $Email = $_POST['AppleEmail'];
-                            echo $Email;
-                            echo "<br>";
+                            // echo $Email;
+                            // echo "<br>";
                             if(isset($_POST['AppleCheck'])){
                                 $Prefered = 1;
                             }else{
                                 $Prefered = 0;
                             }
+
+                            require('db.php');
+                            // Check if there the account is already exist in DB
+                            $checkExistsQuery = " SELECT *
+                                                        FROM customerPaymentThirdParty
+                                                        WHERE CustomerID = '$CustomerID'
+                                                        AND Email = '$Email' ";
+
+                            // echo $checkExistsQuery;
+                            // echo "<br>";
+
+                            $checkResult = NULL;
+                            $checkResult = $mysqlConnection->query($checkExistsQuery);
+                            if (!$checkResult) {
+                                throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                            } else {
+                                $count = $checkResult -> num_rows;
+                            }
+
+                            // echo $count;
+                            // echo "<br>";
+                            if($count > 0){
+                                echo "<div class='form'>
+                                        <h3>Sorry! This AndroidPay Email Account already exists!</h3>
+                                        <br/>Click here to <a href='customer-payment.php'>Back</a></div>"; 
+                                $mysqlConnection->close();  
+                                exit();  
+                            }
+                            // INSERT new Bank Account to DB
+                            if($Prefered == 1){
+                                    $query = "UPDATE customerPaymentCards
+                                                SET Prefered = 0
+                                                WHERE CustomerID = '$CustomerID';
+                                                UPDATE customerPaymentBank
+                                                SET Prefered = 0
+                                                WHERE CustomerID = '$CustomerID';
+                                                UPDATE customerPaymentThirdParty
+                                                SET Prefered = 0
+                                                WHERE CustomerID = '$CustomerID';
+                                                INSERT INTO `customerPaymentThirdParty` (PaymentTypeID, Email, CustomerID, Prefered)
+                                                VALUES ('$PaymentTypeID', '$Email','$CustomerID', '$Prefered')
+                                                            ";
+                                    // echo $query;
+                                    // echo "<br>";
+                                    $result = NULL;
+                                    $result = $mysqlConnection->multi_query($query);
+
+
+                            }else{
+                                    $query = " INSERT INTO `customerPaymentThirdParty` (PaymentTypeID, Email, CustomerID, Prefered)
+                                                VALUES ('$PaymentTypeID', '$Email','$CustomerID', '$Prefered')";
+                                    // echo $query;
+                                    // echo "<br>";
+                                    $result = NULL;
+                                    $result = $mysqlConnection->query($query);
+
+                            }
+
+                             if (!$result) {
+                                    throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                                }else{
+                                    echo '<script type="text/javascript">
+                                                    window.location = "customer-payment.php"
+                                                     </script>';
+                                    exit();
+                                }  
+
+                            $mysqlConnection->close();
                     }
 
                     // If Paypal form submit 
                     if (!empty($_POST['Paypal'])){
                             $PaymentTypeID = 5;
                             $Email = $_POST['PaypalEmail'];     
-                            echo $Email;
-                            echo "<br>";
+                            // echo $Email;
+                            // echo "<br>";
                             if(isset($_POST['PaypalCheck'])){
                                 $Prefered = 1;
                             }else{
                                 $Prefered = 0;
                             }
+
+                            require('db.php');
+                            // Check if there the account is already exist in DB
+                            $checkExistsQuery = " SELECT *
+                                                        FROM customerPaymentThirdParty
+                                                        WHERE CustomerID = '$CustomerID'
+                                                        AND Email = '$Email' ";
+
+                            // echo $checkExistsQuery;
+                            // echo "<br>";
+
+                            $checkResult = NULL;
+                            $checkResult = $mysqlConnection->query($checkExistsQuery);
+                            if (!$checkResult) {
+                                throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                            } else {
+                                $count = $checkResult -> num_rows;
+                            }
+
+                            // echo $count;
+                            // echo "<br>";
+                            if($count > 0){
+                                echo "<div class='form'>
+                                        <h3>Sorry! This AndroidPay Email Account already exists!</h3>
+                                        <br/>Click here to <a href='customer-payment.php'>Back</a></div>"; 
+                                $mysqlConnection->close();  
+                                exit();  
+                            }
+                            // INSERT new Bank Account to DB
+                            if($Prefered == 1){
+                                    $query = "UPDATE customerPaymentCards
+                                                SET Prefered = 0
+                                                WHERE CustomerID = '$CustomerID';
+                                                UPDATE customerPaymentBank
+                                                SET Prefered = 0
+                                                WHERE CustomerID = '$CustomerID';
+                                                UPDATE customerPaymentThirdParty
+                                                SET Prefered = 0
+                                                WHERE CustomerID = '$CustomerID';
+                                                INSERT INTO `customerPaymentThirdParty` (PaymentTypeID, Email, CustomerID, Prefered)
+                                                VALUES ('$PaymentTypeID', '$Email','$CustomerID', '$Prefered')
+                                                            ";
+                                    // echo $query;
+                                    // echo "<br>";
+                                    $result = NULL;
+                                    $result = $mysqlConnection->multi_query($query);
+
+
+                            }else{
+                                    $query = " INSERT INTO `customerPaymentThirdParty` (PaymentTypeID, Email, CustomerID, Prefered)
+                                                VALUES ('$PaymentTypeID', '$Email','$CustomerID', '$Prefered')";
+                                    // echo $query;
+                                    // echo "<br>";
+                                    $result = NULL;
+                                    $result = $mysqlConnection->query($query);
+
+                            }
+
+                             if (!$result) {
+                                    throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                                }else{
+                                    echo '<script type="text/javascript">
+                                                    window.location = "customer-payment.php"
+                                                     </script>';
+                                    exit();
+                                }  
+
+                            $mysqlConnection->close();
                     }
 
                     // If card form submit
@@ -523,10 +658,10 @@
                         }
                     }
 
-                // check if preferred payment exist in customerPaymentThirdParty table
+                // check if third party payment exist in customerPaymentThirdParty table
                 $query3 = "SELECT *
                                     FROM customerPaymentThirdParty
-                                    WHERE  Prefered = 1
+                                    WHERE  Prefered = 0
                                     AND CustomerID = '$CustomerID' ";
                 $result3 = NULL;
                 $result3 = $mysqlConnection->query($query3);
@@ -534,6 +669,83 @@
                     throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
                 } else {
                     $count3 = $result3 -> num_rows;
+                }
+                if($count3 > 0){
+                    $array = array();
+                    while($row = $result3->fetch_assoc()) $array[] = $row;
+                    foreach($array as $bank){
+                        $PaymentTypeID = $bank['PaymentTypeID'];
+                        $Email = $bank['Email'];
+                        $CustomerID = $bank['CustomerID'];
+                        $id = $bank['id'];
+                        $Prefered = $bank['Prefered'];
+                        
+                        switch($PaymentTypeID){
+                            case 1: $PaymentType = "Android Pay"; break;
+                            case 2: $PaymentType = "ApplePay"; break;
+                            case 5: $PaymentType = "PayPal"; break;
+                        }
+                        
+
+                        // Remove bank
+                        if (!empty($_POST['deletePay'])){
+                                $id = $_POST['hiddenPay'];
+                                $query = "DELETE 
+                                                FROM customerPaymentThirdParty
+                                                WHERE id = '$id'
+                                                ";
+                                $result = NULL;
+                                $result = $mysqlConnection->query($query);
+                                    
+                                if($result){
+                                    echo '<script type="text/javascript">
+                                                window.location = "customer-payment.php"
+                                                 </script>';
+                                                exit();
+                                    }
+                        }
+                        // SET to preferred
+                        if (!empty($_POST['setPayToPreferred'])){ 
+                                $id = $_POST['hiddenPay']; 
+                                //echo $id;
+                                $query = "UPDATE customerPaymentCards
+                                                SET Prefered = 0
+                                                WHERE CustomerID = '$CustomerID';
+                                                UPDATE customerPaymentBank
+                                                SET Prefered = 0
+                                                WHERE CustomerID = '$CustomerID';
+                                                UPDATE customerPaymentThirdParty
+                                                SET Prefered = 0
+                                                WHERE CustomerID = '$CustomerID';
+                                                UPDATE customerPaymentThirdParty
+                                                SET Prefered = 1
+                                                WHERE id = '$id';
+                                                ";
+
+                                //echo $query;
+                                $result = NULL;
+                                $result = $mysqlConnection->multi_query($query);
+                                    
+                                if($result){
+                                    echo '<script type="text/javascript">
+                                                window.location = "customer-payment.php"
+                                                 </script>';
+                                    exit();
+                                    }
+                            }
+
+                            echo "
+                            <div class = 'payment-box'>
+                                <h3>Stored Third Party Payment</h3>
+                                <p>Payment Name: ".$PaymentType."</p> 
+                                <p>Account Email: " .$Email. "</p>
+                                <form method = 'post'>
+                                    <input type = 'hidden' name = 'hiddenPay' value = ' ".$id." ' />
+                                    <input type = 'submit' name = 'deletePay' value = 'Remove Account' />
+                                    <input type = 'submit' name = 'setPayToPreferred' value = 'Preferred' />
+                                </form>
+                            </div>" ;
+                        }
                 }
 
 
@@ -620,6 +832,25 @@
                 } else {
                     $count3 = $result3 -> num_rows;
                 }
+                if($count3 > 0){
+                    $bank = $result3->fetch_assoc();
+                    $PaymentTypeID = $bank['PaymentTypeID'];
+                    $Email = $bank['Email'];
+                  
+                    switch($PaymentTypeID){
+                        case 1: $PaymentType = "Android Pay"; break;
+                        case 2: $PaymentType = "ApplePay"; break;
+                        case 5: $PaymentType = "PayPal"; break;
+                    }
+                    echo "
+                            <div class = 'payment-box'>
+                                <h3>Default Payment Method -- Third Party</h3>
+                                <p>Payment Name: ".$PaymentType."</p> 
+                                <p>Account Email: " .$Email. "</p>
+                            </div>" ;
+
+                }
+
                   $mysqlConnection->close();
 
 
