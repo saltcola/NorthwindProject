@@ -26,7 +26,7 @@
 <body>
     <div class="continer">
         <div class="row">
-            <div class="col-sm-4 employee-left">
+            <div class="col-sm-2 employee-left">
                 <div class="btn-group-vertical" role="group" aria-label="...">
                     <button type="button" class="btn btn-default" onClick="location.href='customer-main.php'">View Profile</button>
                     <button type="button" class="btn btn-default" onClick="location.href='customer-editProfile.php'">Edit Profile</button>
@@ -39,7 +39,7 @@
                     <button type="button" class="btn btn-default" onClick="location.href='logout.php'">Logout</button>
                 </div>
             </div>
-            <div class="col-sm-8 employee-right">
+            <div class="col-sm-9 employee-right">
             <?php
 
                     $CustomerID = $_SESSION["username"];
