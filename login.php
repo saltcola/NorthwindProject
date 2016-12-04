@@ -38,14 +38,22 @@
 	?>
 		<div class="form">
 			<h1>Log In</h1>
-			<form action="" method="post" name="login">
-				<input type="text" name="username" placeholder="Username" required />
-				<input type="password" name="password" placeholder="Password" required />
-				<input name="submit" type="submit" value="Login" />
+			<form action="" method="post" name="login" >
+				<input class = "login-style" type="text" name="username" placeholder="Username" required />
+				<input class = "login-style" type="password" name="password" placeholder="Password" required />
+				<input class = "login-button" name="submit" type="submit" value="Login" />
+				<input class = "login-button" name="Back" type="submit" value="Cancel" />
 			</form>
 			<p>Not registered yet? <a href='registration.php'>Register Here</a></p>
-			<p>Or <a href='index.html'>Go Back</a></p>
 		</div>
 	<?php } ?>
+	<?php 
+		if(!empty($_POST['Back'])){
+			echo '<script type="text/javascript">
+           			window.location = "index.html"
+     				 </script>';
+		exit;
+		}
+	?>
 	</body>
 </html>

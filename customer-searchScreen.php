@@ -70,7 +70,7 @@
                         <input type="text" name="Supplier" class="form-control" placeholder="Supplier"/>
                     </div>
                     <div class="form-group">
-                        <input type="submit" name="search" value="Search" />
+                        <input type="submit" class = "login-button" name="search" value="Search" />
                     </div>
                 </form>
                 <?php 
@@ -185,6 +185,7 @@
                     <th>Quantity Per Unit</th>
                     <th>Unit Price</th>
                     <th>Units In Stock</th>
+                    <th>Add to cart</th>
                   </tr>
                 </thead>
                
@@ -235,7 +236,16 @@
                     <td><?php echo $Category ?></td>
                     <td><?php echo $QuantityPerUnit?></td>
                     <td><?php echo $UnitPrice?></td>
-                    <td><?php echo $UnitsInStock ?></td>
+                    <td><?php echo $UnitsInStock?></td>
+                    <td>
+                        <form class="form-inline" method = "post">
+                            <div class="form-group">
+                                <input class = "col-xs-3" type="text" name="Quantity" value = 0  required />
+                                <input type = 'hidden' name = 'hiddenCard' value = <?php echo $ProductID ?> />
+                                <input type="submit" name="addToCart" value="Add" />
+                            </div>
+                        </form>
+                    </td>
                     </tr>
                 </tbody>
                     <?php } ?>

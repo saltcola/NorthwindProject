@@ -45,7 +45,7 @@
 <body>
     <div class="continer">
         <div class="row">
-            <div class="col-sm-4 employee-left">
+            <div class="col-sm-2 employee-left">
                 <div class="btn-group-vertical" role="group" aria-label="...">
                     <button type="button" class="btn btn-default" onClick="location.href='customer-main.php'">View Profile</button>
                     <button type="button" class="btn btn-default" onClick="location.href='customer-editProfile.php'">Edit Profile</button>
@@ -58,12 +58,12 @@
                     <button type="button" class="btn btn-default" onClick="location.href='logout.php'">Logout</button>
                 </div>
             </div>
-            <div class="col-sm-8 employee-right">
+            <div class="col-sm-9 employee-right">
 
             <?php
                 require('db.php');
                 // If form submitted, insert values into the database.
-                if (isset($_REQUEST['username'])){
+                if (isset($_REQUEST['username']) && !empty($_POST['submit'])){
                     $username = $_POST['username'];
                     $email = $_POST['email'];
                     $trn_date = date("Y-m-d H:i:s");
@@ -105,80 +105,92 @@
                         }
                 }else{
             ?>
-            <form name="registration" action="" method="post">
+            <div class = "row">
+                <div class = "col-sm-6">
+                    <form name="registration" action="" method="post">
 
-                <div class="form-group">
-                    <label>First Name</label>
-                    <input type="text" class="form-control"  name="Name" placeholder="First Name" value= <?php echo $row['fName'] ?> required />
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" class="form-control"  name="Name" placeholder="First Name" value= <?php echo $row['fName'] ?> required />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" class="form-control"  name="lName" placeholder="Last Name" value= <?php echo $row['lName'] ?> required />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Company Name</label>
+                            <?php 
+                                if($row['companyName'] == "NULL"){
+                                    echo " <input type= 'text' class='form-control' name= 'companyName' placeholder='Company' /> ";
+                                }else{
+                                    echo " <input type= 'text'  class='form-control' name= 'companyName' placeholder='Company'  value = ' " .$row['companyName']. " ' /> ";
+                                }
+
+                            ?>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" name="username" class="form-control" placeholder="username" value= <?php echo $row['CustomerID'] ?> required />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email" class="form-control" placeholder="Email" value= <?php echo $row['Email'] ?> required />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" name="address"  class="form-control"  placeholder="Address" value= "<?php echo $row['Address'] ?>  " required />
+                        </div>               
+
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" class="form-control" name="city" placeholder="City" value= <?php echo $row['City'] ?> required />
+                        </div>
+
+                        <div class="form-group">
+                            <label>State</label>
+                            <input type="text" class="form-control" name="state" placeholder="State" value= <?php echo $row['Region'] ?> required />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Country</label>
+                            <input type="text" class="form-control" name="country" placeholder="Country" value= <?php echo $row['Country'] ?> required />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Zip Code</label>
+                            <input type="text" class="form-control" name="postalCode" placeholder="Post Code" value= <?php echo $row['PostalCode'] ?> required />                
+                        </div>
+
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="text" class="form-control" name="phone" placeholder="Phone" value= <?php echo $row['Phone'] ?> required />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Fax</label>
+                           <input type="text"  class="form-control" name="fax" placeholder="Fax" value= <?php echo $row['Fax'] ?> required />
+                        </div>
+
+                        <input type="submit" class = "login-button"  name="submit" value="Edit" />
+                        <input class = "login-button" name="Back" type="submit" value="Cancel" />
+
+                    </form>
                 </div>
-
-                <div class="form-group">
-                    <label>Last Name</label>
-                    <input type="text" class="form-control"  name="lName" placeholder="Last Name" value= <?php echo $row['lName'] ?> required />
-                </div>
-
-                <div class="form-group">
-                    <label>Company Name</label>
-                    <?php 
-                        if($row['companyName'] == "NULL"){
-                            echo " <input type= 'text' class='form-control' name= 'companyName' placeholder='Company' /> ";
-                        }else{
-                            echo " <input type= 'text'  class='form-control' name= 'companyName' placeholder='Company'  value = ' " .$row['companyName']. " ' /> ";
-                        }
-
-                    ?>
-                </div>
-
-                <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" name="username" class="form-control" placeholder="username" value= <?php echo $row['CustomerID'] ?> required />
-                </div>
-
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" name="email" class="form-control" placeholder="Email" value= <?php echo $row['Email'] ?> required />
-                </div>
-
-                <div class="form-group">
-                    <label>Address</label>
-                    <input type="text" name="address"  class="form-control"  placeholder="Address" value= "<?php echo $row['Address'] ?>  " required />
-                </div>               
-
-                <div class="form-group">
-                    <label>City</label>
-                    <input type="text" class="form-control" name="city" placeholder="City" value= <?php echo $row['City'] ?> required />
-                </div>
-
-                <div class="form-group">
-                    <label>State</label>
-                    <input type="text" class="form-control" name="state" placeholder="State" value= <?php echo $row['Region'] ?> required />
-                </div>
-
-                <div class="form-group">
-                    <label>Country</label>
-                    <input type="text" class="form-control" name="country" placeholder="Country" value= <?php echo $row['Country'] ?> required />
-                </div>
-
-                <div class="form-group">
-                    <label>Zip Code</label>
-                    <input type="text" class="form-control" name="postalCode" placeholder="Post Code" value= <?php echo $row['PostalCode'] ?> required />                
-                </div>
-
-                <div class="form-group">
-                    <label>Phone</label>
-                    <input type="text" class="form-control" name="phone" placeholder="Phone" value= <?php echo $row['Phone'] ?> required />
-                </div>
-
-                <div class="form-group">
-                    <label>Fax</label>
-                   <input type="text"  class="form-control" name="fax" placeholder="Fax" value= <?php echo $row['Fax'] ?> required />
-                </div>
-
-                <input type="submit" name="submit" value="Edit" />
-                <a class = ".backButton" href='customer-main.php'>Back</a>
-
-            </form>
-    <?php } ?>                
+            </div>
+    <?php } ?> 
+    <?php 
+        if(!empty($_POST['Back'])){
+            echo '<script type="text/javascript">
+                    window.location = "customer-main.php"
+                     </script>';
+        exit;
+        }
+    ?>               
             </div>
         </div>
     </div>
