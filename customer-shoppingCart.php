@@ -32,12 +32,12 @@
                 <div class="btn-group-vertical" role="group" aria-label="...">
                     <button type="button" class="btn btn-default" onClick="location.href='customer-main.php'">View Profile</button>
                     <button type="button" class="btn btn-default" onClick="location.href='customer-editProfile.php'">Edit Profile</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-payment.php'">Edit Payment</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-completedOrder.php'">Completed Order</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-pendingOrder.php'">Pending Order</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-searchScreen.php'">Search/Order</button>
                     <button type="button" class="btn btn-default" onClick="location.href='customer-shoppingCart.php'">Shopping Cart</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-searchScreen.php'">Search Screen</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-quickSearch.php'">Quick Search</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-payment.php'">Edit Payment</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-EditAddress.php'">Edit Order Address</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-pendingOrder.php'">Pending Order</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-completedOrder.php'">Completed Order</button>
                     <button type="button" class="btn btn-default" onClick="location.href='logout.php'">Logout</button>
                 </div>
             </div>
@@ -124,7 +124,7 @@
                     $ProductID = $_POST['hiddenProductID'];
                     $UnitsOnOrder = $_POST['hiddenUnitsOnOrder'];
                     $UnitsOldOrder = $_POST['hiddenUnitsOldOrder'];
-                    // echo $UnitsInStock;
+                    // $UnitsInStock;
                     // echo "<br>";
                     // echo $UnitsOldOrder;
                     // echo "<br>";
@@ -316,7 +316,7 @@
                     <td>
                         <form class="form-inline" method = "post">
                             <div class="form-group">
-                                <input class = "col-xs-3" type="text" name="Quantity" value = 0  required />
+                                <input class = "col-xs-3 small-Input" align="left"  type="text" name="Quantity" value = 0  required />
                                 <input type = 'hidden' name = 'hiddenID' value = <?php echo $id ?> />
                                 <input type = 'hidden' name = 'hiddenInStock' value = <?php echo $UnitsInStock ?> />
                                 <input type = 'hidden' name = 'hiddenProductID' value = <?php echo $ProductID ?> />
@@ -333,22 +333,25 @@
 
                         if (!empty($_POST['Checkout']) && $checkout){                       
                             $query = "INSERT INTO `order details`(OrderID, ProductID, UnitPrice, Quantity, Discount) VALUES ( '$OrderID', '$ProductID','$UnitPrice', '$Quantity', 0) ";
-                            echo $query;
-                            echo "<br>";
+                            // echo $query;
+                            // echo "<br>";
                             $result = NULL;
                             $result = $mysqlConnection->query($query);
                             if (!$result) {
                             throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
                             } else {
                                 $query = "DELETE FROM `Shoppingcart` WHERE id = '$id' ";
-                                echo $query;
-                                echo "<br>";
+                                // echo $query;
+                                // echo "<br>";
                                 $result = NULL;
                                 $result = $mysqlConnection->query($query);
                                 if (!$result) {
                                 throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
                                 } else {
-                                    echo "Deleted";
+                                    echo "<script>
+                                        alert('Order Placed');
+                                        window.location.href='customer-shoppingCart.php';
+                                        </script>";
                                 }
 
                             }

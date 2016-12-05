@@ -5,6 +5,8 @@
     if(!isset($_SESSION["username"])){
         header("Location: login.php");
         exit(); 
+    }else{
+        $CustomerID = $_SESSION["username"];
     }
 ?>
 <!DOCTYPE html>
@@ -26,21 +28,217 @@
 <body>
     <div class="continer">
         <div class="row">
-            <div class="col-sm-4 employee-left">
+            <div class="col-sm-3 employee-left">
                 <div class="btn-group-vertical" role="group" aria-label="...">
                     <button type="button" class="btn btn-default" onClick="location.href='customer-main.php'">View Profile</button>
                     <button type="button" class="btn btn-default" onClick="location.href='customer-editProfile.php'">Edit Profile</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-payment.php'">Edit Payment</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-completedOrder.php'">Completed Order</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-pendingOrder.php'">Pending Order</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-searchScreen.php'">Search/Order</button>
                     <button type="button" class="btn btn-default" onClick="location.href='customer-shoppingCart.php'">Shopping Cart</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-searchScreen.php'">Search Screen</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-quickSearch.php'">Quick Search</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-payment.php'">Edit Payment</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-EditAddress.php'">Edit Order Address</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-pendingOrder.php'">Pending Order</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-completedOrder.php'">Completed Order</button>
                     <button type="button" class="btn btn-default" onClick="location.href='logout.php'">Logout</button>
                 </div>
             </div>
-            <div class="col-sm-8 employee-right">
-              For pending order
+            <div class="col-sm-9 employee-right">
+            <?php 
+                require('db.php');
+                    
+                    $query = "SELECT * FROM `ORDERS` 
+                                    WHERE CustomerID = '$CustomerID' 
+                                    AND EmployeeID IS NULL ";
+                    // echo $query;
+                    // echo "<br>";
+                    $result = NULL;
+                    $result = $mysqlConnection->query($query);
+                    if (!$result) {
+                        throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                    } else {
+                        $count = $result -> num_rows;
+                        // echo $count;
+                        // echo "<br>";
+                        while($row = $result->fetch_assoc()) $array[] = $row;
+                    }
+                    if($count == 0){
+                        echo "
+                        <h2> There is no pending order right now.</h2>
+                        ";
+                    }
+
+                    foreach($array as $order){
+                        $OrderID = $order['OrderID'];
+                        $OrderDate = $order['OrderDate'];
+            ?>
+                <div class = "payment-box">
+                    <?php
+                        echo "<h4>Order Number : $OrderID</h4>";
+                        //echo "<br>";
+                        echo "Order Date-Time: $OrderDate";
+                        echo "<br>";
+                        $query = "SELECT * FROM `order details`
+                                        WHERE OrderID = '$OrderID' ";
+                        // echo $query;
+                        // echo "<br>";
+                        $result = NULL;
+                        $result = $mysqlConnection->query($query);
+                        if (!$result) {
+                            throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                        } else {
+                            $count = $result -> num_rows;
+                            echo "Total Items: $count";
+                            echo "<br>";
+                            echo "-----------------------------------------------------";
+                            echo "<br>";
+                            $array = array();
+                            while($row = $result->fetch_assoc()) $array[] = $row;
+                        }
+                        foreach ( $array as $item ) {
+                            $ProductID = $item['ProductID'];
+                            $UnitPrice = $item['UnitPrice'];
+                            $Quantity = $item['Quantity']; 
+                            $Discount = $item['Discount'];
+                            $TotalPrice = $UnitPrice * $Quantity * (1 - $Discount );
+                            $query = "SELECT * FROM `products` WHERE ProductID = '$ProductID' ";
+                            // echo $query;
+                            // echo "<br>";    
+
+                            $result = NULL;
+                            $result = $mysqlConnection->query($query);
+                            if (!$result) {
+                                throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                            } else {
+                                $count = $result -> num_rows;
+                                // echo $count;
+                                // echo "<br>";
+                                $product = $result->fetch_assoc();
+                                $ProductName = $product['ProductName'];
+                                $SupplierID = $product['SupplierID'];
+                                $CategoryID = $product['CategoryID'];
+                                $QuantityPerUnit = $product['QuantityPerUnit'];
+                                $UnitsInStock = $product['UnitsInStock'];
+                                $UnitsOnOrder = $product['UnitsOnOrder'];
+                                $Discontinued = $product['Discontinued'];
+
+                                echo "Product Name: $ProductName";
+                                echo "<br>";
+                                echo "Quantity Per Unit: $QuantityPerUnit";
+                                echo "<br>";
+                                echo "Quantity: $Quantity";
+                                echo "<br>";
+                                echo "Unit Price: $UnitPrice";
+                                echo "<br>"; 
+                                echo "Total Price: $TotalPrice";
+                                echo "<br>"; 
+                                echo "-----------------------------------------------------";
+                                echo "<br>"; 
+                            }
+                        }
+                    ?>
+                    <form class="form-inline" method = "post">
+                            <div class="form-group">
+                                <input type = 'hidden' name = 'hiddenOrderID' value = <?php echo $OrderID ?> />
+                                <input type="submit" name="Remove" value="Remove" />
+                            </div>
+                    </form>    
+                </div>
+              <?php  }
+           
+                 if (!empty($_POST['Remove'])){
+                    $OrderID =  $_POST['hiddenOrderID'];
+                    $query = $query = "SELECT * FROM `order details`
+                                        WHERE OrderID = '$OrderID' ";
+                    // echo $query;
+                    // echo "<br>";
+                    $result = NULL;
+                    $result = $mysqlConnection->query($query);
+                    if (!$result) {
+                        throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                    } else {
+                        // $count = $result -> num_rows;
+                        // echo "Total Items: $count";
+                        // echo "<br>";
+                        // echo "-----------------------------------------------------";
+                        // echo "<br>";
+                        $array = array();
+                        while($row = $result->fetch_assoc()) $array[] = $row;
+                    }
+                    foreach ( $array as $item )
+                    {
+                        $ProductID = $item['ProductID'];
+                        $UnitPrice = $item['UnitPrice'];
+                        $Quantity = $item['Quantity']; 
+                        $Discount = $item['Discount'];
+
+                        $query = "SELECT UnitsInStock, UnitsOnOrder FROM `products` WHERE ProductID = '$ProductID' ";
+                        // echo $query;
+                        // echo "<br>";
+                        $result = NULL;
+                        $result = $mysqlConnection->query($query);
+                        
+                        if (!$result) 
+                        {
+                            throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                        } else 
+                        {
+                            $row = $result->fetch_assoc();
+                            $UnitsInStock = $row['UnitsInStock'] + $Quantity;
+                            $UnitsOnOrder = $row['UnitsOnOrder'] - $Quantity;
+
+                            $query = "UPDATE `products` SET 
+                                        UnitsInStock = '$UnitsInStock', UnitsOnOrder = '$UnitsOnOrder' WHERE ProductID = '$ProductID'
+                            ";
+
+
+
+
+                            // echo $row['UnitsInStock'] ;
+                            // echo "<br>";
+                            // echo $row['UnitsOnOrder'] ;
+                            // echo "<br>";
+                            // echo $Quantity;
+                            // echo "<br>";
+ 
+                            // echo $UnitsInStock;
+                            // echo "<br>";
+                            // echo $UnitsOnOrder;
+                            // echo "<br>";
+                        
+                            // echo $query;
+                            // echo "<br>";
+
+                            $result = NULL;
+                            $result = $mysqlConnection->query($query);
+                            if (!$result) 
+                            {
+                                throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                            }                              
+                        }                        
+                    }
+
+                    // echo $OrderID;
+                    // echo "<br>";
+                    $multiQuery = "DELETE FROM `ORDERS` WHERE OrderID = $OrderID;
+                                            DELETE FROM `order details` WHERE OrderID = $OrderID;
+                    ";
+
+                    // echo $multiQuery;
+                    // echo "<br>";
+                    $result = NULL;
+                    $result = $mysqlConnection->multi_query($multiQuery);
+                    if (!$result) 
+                    {
+                    throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                    } else 
+                    {
+                        echo "<script>
+                            alert('Order Removed');
+                            window.location.href='customer-pendingOrder.php';
+                            </script>";
+                    }
+                 }
+              ?>
+              
             </div>
         </div>
     </div>

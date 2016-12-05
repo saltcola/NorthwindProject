@@ -158,3 +158,10 @@ img{
     padding: 5px;
 }
 
+/* customer-search */
+.small-Input{
+    padding-left : 1px !important;
+    padding-right : 1px !important;
+    margin-right:  5px !important;
+}
+

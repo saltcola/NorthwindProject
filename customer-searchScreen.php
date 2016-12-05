@@ -118,7 +118,7 @@
                         // echo "products Updated ";
                         echo "<script>
                                 alert('Item Added To Shopping Cart');
-                                window.location.href='customer-shoppingCart.php';
+                                window.location.href='customer-searchScreen.php';
                                 </script>";
                     } 
                 }
@@ -131,13 +131,13 @@
             <div class="col-sm-2 employee-left">
                 <div class="btn-group-vertical" role="group" aria-label="...">
                     <button type="button" class="btn btn-default" onClick="location.href='customer-main.php'">View Profile</button>
-                   <button type="button" class="btn btn-default" onClick="location.href='customer-editProfile.php'">Edit Profile</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-payment.php'">Edit Payment</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-completedOrder.php'">Completed Order</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-pendingOrder.php'">Pending Order</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-editProfile.php'">Edit Profile</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-searchScreen.php'">Search/Order</button>
                     <button type="button" class="btn btn-default" onClick="location.href='customer-shoppingCart.php'">Shopping Cart</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-searchScreen.php'">Search Product</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-quickSearch.php'">Quick Search</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-payment.php'">Edit Payment</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-EditAddress.php'">Edit Order Address</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-pendingOrder.php'">Pending Order</button>
+                    <button type="button" class="btn btn-default" onClick="location.href='customer-completedOrder.php'">Completed Order</button>
                     <button type="button" class="btn btn-default" onClick="location.href='logout.php'">Logout</button>
                 </div>
             </div>
@@ -342,7 +342,8 @@
                     <td>
                         <form class="form-inline" method = "post">
                             <div class="form-group">
-                                <input class = "col-xs-3" type="text" name="Quantity" value = 0  required />
+                                <input class = "col-xs-3 small-Input" align="left"  type="text" name="Quantity" value = 0  required />
+
                                 <input type = 'hidden' name = 'hiddenOnOrder' value = <?php echo $UnitsOnOrder ?> />
                                 <input type = 'hidden' name = 'hiddenQua' value = <?php echo $UnitsInStock ?> />
                                 <input type = 'hidden' name = 'hiddenAdd' value = <?php echo $ProductID ?> />
