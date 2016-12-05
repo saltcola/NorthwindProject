@@ -122,10 +122,11 @@
                         <div class="form-group">
                             <label>Company Name</label>
                             <?php 
-                                if($row['companyName'] == "NULL"){
+                                $companyName = $row['CompanyName'] ;
+                                if( $companyName == "NULL"){
                                     echo " <input type= 'text' class='form-control' name= 'companyName' placeholder='Company' /> ";
                                 }else{
-                                    echo " <input type= 'text'  class='form-control' name= 'companyName' placeholder='Company'  value = ' " .$row['companyName']. " ' /> ";
+                                    echo " <input type= 'text'  class='form-control' name= 'companyName' placeholder='Company'  value = '$companyName' /> ";
                                 }
 
                             ?>

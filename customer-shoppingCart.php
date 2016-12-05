@@ -144,7 +144,7 @@
                         // echo "<br>";
                         // echo $UnitsOnOrder;
                         // echo "<br>";
-                        
+
                         $queryForProduct = "UPDATE `products`
                                             SET UnitsInStock = '$UnitsUpdate',
                                                     UnitsOnOrder = '$UnitsOnOrder'
@@ -193,6 +193,31 @@
                                 // echo "<br>";
                                 while($row = $result->fetch_assoc()) $array[] = $row;
                                 $FinalPrice = 0;
+
+                                $checkout = False;
+                                if (!empty($_POST['Checkout']) && (!$checkout) ){
+                                    $OrderDate = date("Y-m-d H:i:s");
+                                    $query = "INSERT INTO `ORDERS`(CustomerID,OrderDate) VALUES ( '$CustomerID', '$OrderDate') ";
+                                    $result = NULL;
+                                    $result = $mysqlConnection->query($query);
+                                    if (!$result) {
+                                        throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                                    } else {
+                                        $query = "SELECT OrderID FROM `ORDERS`
+                                                        WHERE CustomerID = '$CustomerID'
+                                                        AND OrderDate = '$OrderDate'
+                                        ";
+                                        $result = NULL;
+                                        $result = $mysqlConnection->query($query);
+                                        if (!$result) {
+                                        throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                                        } else {
+                                            $row = $result->fetch_assoc();
+                                            $OrderID = $row['OrderID'];
+                                            $checkout = True;
+                                        }
+                                    }
+                                }
 
                                 foreach ($array as $order) {
                                     $id = $order['id'];                        
@@ -304,11 +329,36 @@
                     </td>
                     </tr>
                 </tbody>
-                    <?php }} $mysqlConnection->close();?>
+                    <?php 
+
+                        if (!empty($_POST['Checkout']) && $checkout){                       
+                            $query = "INSERT INTO `order details`(OrderID, ProductID, UnitPrice, Quantity, Discount) VALUES ( '$OrderID', '$ProductID','$UnitPrice', '$Quantity', 0) ";
+                            echo $query;
+                            echo "<br>";
+                            $result = NULL;
+                            $result = $mysqlConnection->query($query);
+                            if (!$result) {
+                            throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                            } else {
+                                $query = "DELETE FROM `Shoppingcart` WHERE id = '$id' ";
+                                echo $query;
+                                echo "<br>";
+                                $result = NULL;
+                                $result = $mysqlConnection->query($query);
+                                if (!$result) {
+                                throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                                } else {
+                                    echo "Deleted";
+                                }
+
+                            }
+
+                        }
+                   }} $mysqlConnection->close(); ?>
             </table> 
             <h4> Total Price : $ <?php echo $FinalPrice ?> </h4>
             <form  class="form-inline" method = "post" >
-                <input type="submit" class = "login-button" name="Checkout" value="Checkout" />
+                <input type="submit" class = "login-button" name="Checkout" value="Place Order" />
             </form>
             </div>
         </div>
