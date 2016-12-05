@@ -895,7 +895,7 @@
                                 </div>
                                 <div class="form-group">
                                     <p><input type = "checkbox" name="cardCheck" /> Set to default</p>
-                                    <input type="submit" name="card" value="Update" />
+                                    <input type="submit" class = "login-button" name="card" value="Update" />
                                 </div>
                         </form>
               </div>
@@ -920,7 +920,7 @@
                                 </div>
                                 <div class="form-group">
                                     <p><input type = "checkbox" name="bankCheck" /> Set to default</p>
-                                    <input type="submit" name="bank" value="Update" />
+                                    <input type="submit" class = "login-button" name="bank" value="Update" />
                                 </div>
                         </form>
               </div>
@@ -931,7 +931,7 @@
                             <label>Email</label>
                             <input type="email" name="AndroidEmail" class="form-control" placeholder="Email" required/>
                             <p><input type = "checkbox" name="AndroidCheck" /> Set to default</p>
-                            <input type="submit" name="AndroidPay" value="Update" />
+                            <input type="submit" class = "login-button" name="AndroidPay" value="Update" />
                         </div>
                     </form>
               </div>
@@ -942,7 +942,7 @@
                             <label>Email</label>
                             <input type="email" name="AppleEmail" class="form-control" placeholder="Email" required/>
                             <p><input type = "checkbox" name="AppleCheck" /> Set to default</p>
-                            <input type="submit" name="ApplePay" value="Update" />
+                            <input type="submit" class = "login-button" name="ApplePay" value="Update" />
                         </div>
                     </form>
               </div>
@@ -953,7 +953,7 @@
                             <label>Email</label>
                             <input type="email" name="PaypalEmail" class="form-control" placeholder="Email" required/>
                             <p><input type = "checkbox" name="PaypalCheck" /> Set to default</p>
-                            <input type="submit" name="Paypal" value="Update" />
+                            <input type="submit" class = "login-button" name="Paypal" value="Update" />
                         </div>
                     </form>
               </div>

@@ -5,6 +5,8 @@
     if(!isset($_SESSION["username"])){
         header("Location: login.php");
         exit(); 
+    }else{
+        $CustomerID = $_SESSION["username"];
     }
 ?>
 <!DOCTYPE html>
@@ -24,6 +26,102 @@
 </head>
 
 <body>
+    <?php
+        if (!empty($_POST['addToCart'])){
+            $ProductID = $_POST['hiddenAdd'];
+            $UnitsInStock = $_POST['hiddenQua'];
+            $UnitsOnOrder = $_POST['hiddenOnOrder'];
+            $Quantity = $_POST['Quantity'];
+            $RequireDate = date("Y-m-d H:i:s");
+            $CartOption = False;
+
+            if($Quantity <= 0 || $Quantity > $UnitsInStock){
+                echo "<script>
+                        alert('Quantity is not valid!');
+                        window.location.href='customer-searchScreen.php';
+                        </script>";
+            }else{
+                require('db.php');
+
+                $queryForCart = "SELECT id, Quantity
+                                            FROM `Shoppingcart`
+                                            WHERE CustomerID = '$CustomerID' 
+                                            AND ProductID = '$ProductID' ";
+                // echo $queryForCart;
+                // echo "<br>";
+                $result = NULL;
+                $result = $mysqlConnection->query($queryForCart);
+                if (!$result) {
+                    throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                } else {
+                    $count = $result -> num_rows;
+                    // echo $count;
+                    // echo "<br>";
+                }
+                if ($count >0){
+                    $row = $result->fetch_assoc();
+                    $id = $row['id'];
+                    $QuantityInCart = $row['Quantity'];
+                    $QuantityUpdate = $Quantity + $QuantityInCart;
+                    // echo $id;
+                    // echo "<br>";
+                    // echo $QuantityInCart;
+                    // echo "<br>";
+                    // echo $QuantityUpdate;
+                    // echo "<br>";
+                    $queryForCart = "UPDATE `Shoppingcart`
+                                SET Quantity = '$QuantityUpdate',
+                                        RequireDate = '$RequireDate'
+                                WHERE ProductID = '$ProductID' 
+                                AND CustomerID = '$CustomerID'
+                                ";
+
+                    // echo $queryForCart;
+                    // echo "<br>";
+                    $result = NULL;
+                    $result = $mysqlConnection->query($queryForCart);
+                    if (!$result) {
+                        throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                    }else{
+                        // echo "CART UPDATED";
+                        // echo "<br>";
+                        $CartOption = True;
+                    }
+                }else if($count == 0){
+                    $queryForCart ="INSERT into `Shoppingcart` (CustomerID, ProductID, Quantity, RequireDate)
+                                                VALUES ('$CustomerID','$ProductID','$Quantity','$RequireDate')";
+                    // echo $queryForCart;
+                    // echo "<br>";
+                    $result = NULL;
+                    $result = $mysqlConnection->query($queryForCart);
+                    if (!$result) {
+                        throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                    }else{
+                        // echo "CART INSERTED";
+                        // echo "<br>";
+                        $CartOption = True;
+                    } 
+                }
+                if($CartOption){
+                    $UnitsLeft = $UnitsInStock - $Quantity;
+                    $UnitsOnOrder = $UnitsOnOrder + $Quantity;
+                    $queryForProduct = "UPDATE `products`
+                                    SET UnitsInStock = '$UnitsLeft',
+                                            UnitsOnOrder = '$UnitsOnOrder'
+                                    WHERE ProductID = '$ProductID'
+                    ";
+                    $result = NULL;
+                    $result = $mysqlConnection->query($queryForProduct);
+                    if (!$result) {
+                        throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                    } else {
+                        // echo "products Updated ";
+                    } 
+                }
+                $mysqlConnection->close();
+            }
+        } 
+    ?>
     <div class="continer">
         <div class="row">
             <div class="col-sm-2 employee-left">
@@ -184,7 +282,7 @@
                     <th>Category</th>
                     <th>Quantity Per Unit</th>
                     <th>Unit Price</th>
-                    <th>Units In Stock</th>
+                    <th>In Stock</th>
                     <th>Add to cart</th>
                   </tr>
                 </thead>
@@ -241,7 +339,9 @@
                         <form class="form-inline" method = "post">
                             <div class="form-group">
                                 <input class = "col-xs-3" type="text" name="Quantity" value = 0  required />
-                                <input type = 'hidden' name = 'hiddenCard' value = <?php echo $ProductID ?> />
+                                <input type = 'hidden' name = 'hiddenOnOrder' value = <?php echo $UnitsOnOrder ?> />
+                                <input type = 'hidden' name = 'hiddenQua' value = <?php echo $UnitsInStock ?> />
+                                <input type = 'hidden' name = 'hiddenAdd' value = <?php echo $ProductID ?> />
                                 <input type="submit" name="addToCart" value="Add" />
                             </div>
                         </form>
