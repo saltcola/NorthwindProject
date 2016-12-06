@@ -24,8 +24,8 @@
 			$password = $_POST['password'];
 		      $query = "SELECT * FROM `users` WHERE username='$username' and password='".md5($password)."'";
 
-		      echo $query;
-		      echo "<br>";
+		      // echo $query;
+		      // echo "<br>";
 
 			$result = $mysqlConnection->query($query) or die(mysql_error());
 			$rows = mysqli_num_rows($result);

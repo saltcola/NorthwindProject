@@ -1,3 +1,12 @@
+<?php
+    //include auth.php file on all secure pages
+    //include("auth.php");
+    session_start();
+    if(!isset($_SESSION["username"])){
+        header("Location: admin-login.php");
+        exit(); 
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,7 +37,7 @@
                 </div>
             </div>
             <div class="col-sm-8 employee-right">
-              For edit employee
+              For sale reporting
             </div>
         </div>
     </div>
