@@ -15,7 +15,7 @@
         if (isset($_REQUEST['username'])){
 
             $username = $_POST['username'];
-            $checkQuery = "SELECT * FROM employees WHERE username = '".$username."' ";
+            $checkQuery = "SELECT * FROM employees WHERE username = '$username' ";
             $checkResult = NULL;
             $checkResult = $mysqlConnection->query($checkQuery);
             $count = $checkResult-> num_rows;

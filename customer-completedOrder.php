@@ -27,17 +27,7 @@
     <div class="continer">
         <div class="row">
             <div class="col-sm-3 employee-left">
-                <div class="btn-group-vertical" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-main.php'">View Profile</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-editProfile.php'">Edit Profile</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-searchScreen.php'">Search/Order</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-shoppingCart.php'">Shopping Cart</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-payment.php'">Edit Payment</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-EditAddress.php'">Edit Order Address</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-pendingOrder.php'">Pending Order</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='customer-completedOrder.php'">Completed Order</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='logout.php'">Logout</button>
-                </div>
+                <?php require('customer-left-button.php'); ?>
             </div>
             <div class="col-sm-9 employee-right">
               <?php 

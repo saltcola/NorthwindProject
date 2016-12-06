@@ -3,28 +3,28 @@
     //include("auth.php");
     session_start();
     if(!isset($_SESSION["username"])){
-        header("Location: login.php");
+        header("Location: employee-login.php");
         exit(); 
     }else{
-        require('db.php');
+            require('db.php');
 
-        $username = $_SESSION["username"];
-        $sqlUser = "SELECT * 
-                            FROM customers
-                            WHERE CustomerID = '$username' ";
-        
-        $result = NULL;
-        $result = $mysqlConnection->query($sqlUser);
+            $username = $_SESSION["username"];
+            // echo "Username: ".$username;
+            $sqlUser = "SELECT * 
+                                FROM employees
+                                WHERE username = '$username' ";
+            //echo $sqlUser;
+            $result = NULL;
+            $result = $mysqlConnection->query($sqlUser);
 
-        if (!$result) {
-            throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
-        } else {
-            $row = $result->fetch_assoc();
+            if (!$result) {
+                throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+            } else {
+                $row = $result->fetch_assoc();
+            }
+
+            //$mysqlConnection->close();
         }
-
-        $mysqlConnection->close();
-
-    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +33,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Customer EditProfile</title>
+    <title>Employee</title>
     <!-- Local Css file -->
     <link rel="stylesheet" href="css/style.css" />
     <!-- Bootstrap -->
@@ -43,55 +43,48 @@
 </head>
 
 <body>
-    <div class="continer">
+    <div class="continer" id = "Employee">
         <div class="row">
-            <div class="col-sm-3 employee-left">
-                <?php require('customer-left-button.php'); ?>
+            <div class="col-sm-4 employee-right">
+                <?php require('employee-left-button.php'); ?>
             </div>
-            <div class="col-sm-9 employee-right">
-
-            <?php
-                require('db.php');
+            <div class="col-sm-8 employee-right">
+                <?php
+                //require('db.php');
                 // If form submitted, insert values into the database.
-                if (isset($_REQUEST['username']) && !empty($_POST['submit'])){
-                    $username = $_POST['username'];
-                    $email = $_POST['email'];
-                    $trn_date = date("Y-m-d H:i:s");
-                    $fName = $_POST['fName'];
-                    $lName = $_POST['lName'];
-                    $companyName = (!empty($_POST['companyName'])) ? $_POST['companyName'] : 'NULL';
+                if (!empty($_POST['submit'])){
+                    $FirstName = $_POST['FirstName'];
+                    $LastName = $_POST['LastName'];
                     $address = $_POST['address'];
                     $city = $_POST['city'];
                     $state = $_POST['state'];
                     $postalCode = $_POST['postalCode'];
                     $country = $_POST['country'];
-                    $phone = $_POST['phone'];
-                    $fax = $_POST['fax'];
+                    $HomePhone = $_POST['phone'];
 
-                    $query = "UPDATE `customers` 
-                                    SET CustomerID = '$username', 
-                                            Email = '$email', 
-                                            trn_date = '$trn_date', 
-                                            fName = '$fName', 
-                                            lName = '$lName', 
-                                            companyName = '$companyName', 
+
+                    $query = "UPDATE `employees` 
+                                    SET FirstName = '$FirstName', 
+                                            LastName = '$LastName', 
                                             Address = '$address', 
                                             City = '$city', 
                                             Region = '$state', 
                                             PostalCode = '$postalCode', 
                                             Country = '$country', 
-                                            Phone = '$phone', 
-                                            Fax = '$fax'
-                                    WHERE CustomerID = '$username' 
+                                            HomePhone = '$HomePhone'
+                                    WHERE username = '$username' 
                                     ";
 
+                    // echo $query;
+                    // echo "<br>";
+                    // echo "Username: ".$username;
                     $result = NULL;
                     $result = $mysqlConnection->query($query);
                         
                     if($result){
                         echo "<div class='form'>
                                     <h3>Profile updated.</h3>
-                                    <br/>Click here to <a href='customer-main.php'>Back</a></div>";
+                                    <br/>Click here to <a href='employee-main.php'>Back</a></div>";
                         }
                 }else{
             ?>
@@ -101,35 +94,17 @@
 
                         <div class="form-group">
                             <label>First Name</label>
-                            <input type="text" class="form-control"  name="Name" placeholder="First Name" value= <?php echo $row['fName'] ?> required />
+                            <input type="text" class="form-control"  name="FirstName" placeholder="First Name" value= <?php echo $row['FirstName'] ?> required />
                         </div>
 
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input type="text" class="form-control"  name="lName" placeholder="Last Name" value= <?php echo $row['lName'] ?> required />
-                        </div>
-
-                        <div class="form-group">
-                            <label>Company Name</label>
-                            <?php 
-                                $companyName = $row['CompanyName'] ;
-                                if( $companyName == "NULL"){
-                                    echo " <input type= 'text' class='form-control' name= 'companyName' placeholder='Company' /> ";
-                                }else{
-                                    echo " <input type= 'text'  class='form-control' name= 'companyName' placeholder='Company'  value = '$companyName' /> ";
-                                }
-
-                            ?>
+                            <input type="text" class="form-control"  name="LastName" placeholder="Last Name" value= <?php echo $row['LastName'] ?> required />
                         </div>
 
                         <div class="form-group">
                             <label>Username</label>
-                            <input type="text" name="username" class="form-control" placeholder="username" value= <?php echo $row['CustomerID'] ?> disabled />
-                        </div>
-
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" name="email" class="form-control" placeholder="Email" value= <?php echo $row['Email'] ?> required />
+                            <input type="text" name="username" class="form-control" placeholder="username" value= <?php echo $row['username'] ?> disabled />
                         </div>
 
                         <div class="form-group">
@@ -158,14 +133,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Phone</label>
-                            <input type="text" class="form-control" name="phone" placeholder="Phone" value= <?php echo $row['Phone'] ?> required />
-                        </div>
-
-                        <div class="form-group">
-                            <label>Fax</label>
-                           <input type="text"  class="form-control" name="fax" placeholder="Fax" value= <?php echo $row['Fax'] ?> required />
-                        </div>
+                            <label>HomePhone</label>
+                            <input type="text" class="form-control" name="HomePhone" placeholder="Phone" value= <?php echo $row['HomePhone'] ?> required />
+                        </div>                        
 
                         <input type="submit" class = "login-button"  name="submit" value="Edit" />
                         <input class = "login-button" name="Back" type="submit" value="Cancel" />
@@ -177,11 +147,12 @@
     <?php 
         if(!empty($_POST['Back'])){
             echo '<script type="text/javascript">
-                    window.location = "customer-main.php"
+                    window.location = "Employee-main.php"
                      </script>';
         exit;
         }
-    ?>               
+    ?>
+                
             </div>
         </div>
     </div>

@@ -27,14 +27,7 @@
     <div class="continer">
         <div class="row">
             <div class="col-sm-4 employee-left">
-                <div class="btn-group-vertical" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default" onClick="location.href='admin-ListofActiveOrder.html'">List of Active Customer Order</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='admin-editEmployee.html'">Edit Employee</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='admin-reviewCustomerGraphic.html'">Review Customer Demographic</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='admin-saleReporting.html'">Sale Reporting</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='admin-inventoryReporting.html'" >Inventory Reporting</button>
-                    <button type="button" class="btn btn-default" onClick="location.href='index.html'">Logout</button>
-                </div>
+                <?php require('admin-left-button.php') ?>
             </div>
             <div class="col-sm-8 employee-right">
               For review customer demographic
