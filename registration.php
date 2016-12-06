@@ -40,11 +40,12 @@
             $country = $_POST['country'];
             $phone = $_POST['phone'];
             $fax = $_POST['fax'];
+            $ContactName = $fName." ".$lName;
 
             $query = "INSERT into `customers` (CustomerID, Password, Email, trn_date, fName, 
-            lName, companyName, Address, City, Region, PostalCode, Country, Phone, Fax)
+            lName, companyName, ContactName, Address, City, Region, PostalCode, Country, Phone, Fax)
             VALUES ('$username', '".md5($password)."', '$email', '$trn_date', '$fName', '$lName', 
-            '$companyName', '$address', '$city', '$state', '$postalCode', '$country', '$phone', '$fax')";
+            '$companyName', '$ContactName','$address', '$city', '$state', '$postalCode', '$country', '$phone', '$fax')";
 
             $result = NULL;
             $result = $mysqlConnection->query($query);

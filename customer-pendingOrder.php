@@ -41,7 +41,7 @@
                     <button type="button" class="btn btn-default" onClick="location.href='logout.php'">Logout</button>
                 </div>
             </div>
-            <div class="col-sm-9 employee-right">
+            <div class="col-sm-8 employee-right">
             <?php 
                 require('db.php');
                     
@@ -130,7 +130,65 @@
                                 echo "<br>"; 
                                 echo "Total Price: $TotalPrice";
                                 echo "<br>"; 
-                                echo "-----------------------------------------------------";
+                                echo "---------------SHIPPING ADDRESS--------------";
+                                echo "<br>"; 
+
+                                //echo address if it has already added
+
+                                $query = "SELECT ShipAddrID FROM `ProductsToAddress` 
+                                                WHERE ProductID = '$ProductID'
+                                                AND OrderID = '$OrderID'
+                                                ";
+                                // echo $query;
+                                //  echo "<br>";  
+                                 $result = NULL;
+                                $result = $mysqlConnection->query($query);
+                                    
+                                if (!$result) {
+                                    throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                                } else { 
+                                    $row = $result->fetch_assoc();
+                                    $ShipAddrID = $row['ShipAddrID'];
+
+                                    $query = "SELECT * FROM `ShipAddresses`
+                                                    WHERE ShipAddrID = '$ShipAddrID' ";
+                                    //  echo $query;
+                                    // echo "<br>"; 
+                                    $result = NULL;
+                                    $result = $mysqlConnection->query($query);
+                                        
+                                    if (!$result) {
+                                        throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                                    } else { 
+                                        $countForAddr = $result -> num_rows;
+                                        $AddressRow = $result->fetch_assoc();
+                                    }
+
+                                }
+                                if($countForAddr == 1){
+                                    $ShipName = $AddressRow['ShipName'];
+                                    $ShipAddress = $AddressRow['ShipAddress'];
+                                    $ShipCity = $AddressRow['ShipCity'];
+                                    $ShipState = $AddressRow['ShipState'];
+                                    $ShipPostalCode = $AddressRow['ShipPostalCode'];
+                                    $ShipCountry = $AddressRow['ShipCountry'];
+                                    echo "Name: $ShipName";
+                                    echo "<br>";
+                                    echo "Address: $ShipAddress";
+                                    echo "<br>";
+                                    echo "City: $ShipCity";
+                                    echo "<br>";
+                                    echo "State: $ShipState";
+                                    echo "<br>"; 
+                                    echo "Postal Code: $ShipPostalCode";
+                                    echo "<br>"; 
+                                    echo "Country: $ShipCountry";
+                                    echo "<br>"; 
+                                }else{
+                                    echo "Shipping Address is not added yet.";
+                                    echo "<br>"; 
+                                }
+                                echo "--------------------------------------------------------------------------------------";
                                 echo "<br>"; 
                             }
                         }
