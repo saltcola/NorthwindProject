@@ -19,7 +19,7 @@
 	<body>
 	<?php
 			// If form submitted, insert values into the database.
-		if (isset($_POST['username'])){
+		if (!empty($_POST['submit'])){
 			$username = $_POST['username'];
 			$password = $_POST['password'];
 		      $query = "SELECT * FROM `customers` WHERE CustomerID='$username' and Password='".md5($password)."'";
@@ -39,8 +39,8 @@
 		<div class="form">
 			<h1>Log In</h1>
 			<form action="" method="post" name="login" >
-				<input class = "login-style" type="text" name="username" placeholder="Username" required />
-				<input class = "login-style" type="password" name="password" placeholder="Password" required />
+				<input class = "login-style" type="text" name="username" placeholder="Username" />
+				<input class = "login-style" type="password" name="password" placeholder="Password"  />
 				<input class = "login-button" name="submit" type="submit" value="Login" />
 				<input class = "login-button" name="Back" type="submit" value="Cancel" />
 			</form>
