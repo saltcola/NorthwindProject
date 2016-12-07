@@ -180,6 +180,7 @@
                         <th>In Stock</th>
                         <th>Unite On Order</th>
                         <th>Discontinued</th>
+                        <th>Edit</th>
 <!--                         <th>Add to cart</th> -->
                       </tr>
                     </thead>
@@ -234,19 +235,12 @@
                         <td><?php echo $UnitsInStock?></td>
                         <td><?php echo $UnitsOnOrder?></td>
                         <td><?php echo $Discontinued?></td>
-                        <!-- <td>
-                            <form class="form-inline" method = "post">
-                                <div class="form-group">
-                                    <input class = "col-xs-3 small-Input" align="left"  type="text" name="Quantity" value = 0  required />
-
-                                    <input type = 'hidden' name = 'hiddenOnOrder' value = <?php echo $UnitsOnOrder ?> />
-                                    <input type = 'hidden' name = 'hiddenQua' value = <?php echo $UnitsInStock ?> />
-                                    <input type = 'hidden' name = 'hiddenAdd' value = <?php echo $ProductID ?> />
-                                    <input type="submit" name="addToCart" value="Add" />
-                                </div>
-                            </form>
-                        </td> -->
-                        </tr>
+                        <td>
+                            <?php 
+                            echo "<a href='employee-editProduct.php?id=".$ProductID." '> Edit</a> ";
+                            ?>
+                        </td>
+                    </tr>
                     </tbody>
                         <?php } ?>
                       

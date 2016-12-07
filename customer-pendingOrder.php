@@ -195,7 +195,7 @@
                                     $ShipName = $AddressRow['ShipName'];
                                     $ShipAddress = $AddressRow['ShipAddress'];
                                     $ShipCity = $AddressRow['ShipCity'];
-                                    $ShipState = $AddressRow['ShipState'];
+                                    $ShipState = $AddressRow['ShipRegion'];
                                     $ShipPostalCode = $AddressRow['ShipPostalCode'];
                                     $ShipCountry = $AddressRow['ShipCountry'];
                                     echo "Name: $ShipName";
@@ -211,8 +211,7 @@
                                     echo "Country: $ShipCountry";
                                     echo "<br>"; 
                                 }else{
-                                    echo "Shipping Address is not added yet.";
-                                    echo "<br>"; 
+                                    require('WarningShippingAddress.php');
                                 }
                                 echo "--------------------------------------------------------------------------------------";
                                 echo "<br>"; 

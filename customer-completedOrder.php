@@ -32,7 +32,7 @@
             <div class="col-sm-9 employee-right">
               <?php 
                 require('db.php');
-                    
+                    $CustomerID = $_SESSION['username'];
                     $query = "SELECT * FROM `ORDERS` 
                                     WHERE CustomerID = '$CustomerID' 
                                     AND EmployeeID IS NOT NULL 
@@ -58,6 +58,8 @@
                     foreach($array as $order){
                         $OrderID = $order['OrderID'];
                         $OrderDate = $order['OrderDate'];
+                        $EmployeeID = $order['EmployeeID'];
+                        $ShipVia = $order['ShipVia'];
             ?>
                 <div class = "payment-box">
                     <?php
@@ -65,6 +67,7 @@
                         //echo "<br>";
                         echo "Order Date-Time: $OrderDate";
                         echo "<br>";
+
                         $query = "SELECT * FROM `order details`
                                         WHERE OrderID = '$OrderID' ";
                         // echo $query;
@@ -193,9 +196,25 @@
                                     $ShipName = $AddressRow['ShipName'];
                                     $ShipAddress = $AddressRow['ShipAddress'];
                                     $ShipCity = $AddressRow['ShipCity'];
-                                    $ShipState = $AddressRow['ShipState'];
+                                    $ShipState = $AddressRow['ShipRegion'];
                                     $ShipPostalCode = $AddressRow['ShipPostalCode'];
                                     $ShipCountry = $AddressRow['ShipCountry'];
+
+                                    $ShippedDate = $AddressRow['ShippedDate'];
+                                    $ShipVia = $AddressRow['ShipVia'];
+
+                                    switch ($ShipVia) {
+                                        case 1:
+                                            $ShipViaName = "Speedy Express";
+                                            break;
+                                        case 2:
+                                            $ShipViaName = "United Package";
+                                            break;
+                                        case 3:
+                                            $ShipViaName = "Federal Shipping";
+                                            break;
+                                    }
+
                                     echo "Name: $ShipName";
                                     echo "<br>";
                                     echo "Address: $ShipAddress";
@@ -208,118 +227,23 @@
                                     echo "<br>"; 
                                     echo "Country: $ShipCountry";
                                     echo "<br>"; 
+                                    echo "-----------------Order Status--------------------------------------";
+                                    echo "<br>";
+                                    echo '<span class="label label-success">Shipped</span>';
+                                    echo "<br>";
+                                    echo "Shipped Date: $ShippedDate";
+                                    echo "<br>";
+                                    echo "Shipped Via: $ShipViaName";
+                                    echo "<br>";
+
                                 }else{
-                                    echo "Shipping Address is not added yet.";
-                                    echo "<br>"; 
+                                    require('WarningShippingAddress.php');
                                 }
-                                echo "--------------------------------------------------------------------------------------";
-                                echo "<br>"; 
                             }
                         }
                     ?>
-                    <form class="form-inline" method = "post">
-                            <div class="form-group">
-                                <input type = 'hidden' name = 'hiddenOrderID' value = <?php echo $OrderID ?> />
-                                <input type="submit" name="Remove" value="Remove" />
-                            </div>
-                    </form>    
                 </div>
-              <?php  }
-           
-                 if (!empty($_POST['Remove'])){
-                    $OrderID =  $_POST['hiddenOrderID'];
-                    $query = $query = "SELECT * FROM `order details`
-                                        WHERE OrderID = '$OrderID' ";
-                    // echo $query;
-                    // echo "<br>";
-                    $result = NULL;
-                    $result = $mysqlConnection->query($query);
-                    if (!$result) {
-                        throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
-                    } else {
-                        // $count = $result -> num_rows;
-                        // echo "Total Items: $count";
-                        // echo "<br>";
-                        // echo "-----------------------------------------------------";
-                        // echo "<br>";
-                        $array = array();
-                        while($row = $result->fetch_assoc()) $array[] = $row;
-                    }
-                    foreach ( $array as $item )
-                    {
-                        $ProductID = $item['ProductID'];
-                        $UnitPrice = $item['UnitPrice'];
-                        $Quantity = $item['Quantity']; 
-                        $Discount = $item['Discount'];
-
-                        $query = "SELECT UnitsInStock, UnitsOnOrder FROM `products` WHERE ProductID = '$ProductID' ";
-                        // echo $query;
-                        // echo "<br>";
-                        $result = NULL;
-                        $result = $mysqlConnection->query($query);
-                        
-                        if (!$result) 
-                        {
-                            throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
-                        } else 
-                        {
-                            $row = $result->fetch_assoc();
-                            $UnitsInStock = $row['UnitsInStock'] + $Quantity;
-                            $UnitsOnOrder = $row['UnitsOnOrder'] - $Quantity;
-
-                            $query = "UPDATE `products` SET 
-                                        UnitsInStock = '$UnitsInStock', UnitsOnOrder = '$UnitsOnOrder' WHERE ProductID = '$ProductID'
-                            ";
-
-
-
-
-                            // echo $row['UnitsInStock'] ;
-                            // echo "<br>";
-                            // echo $row['UnitsOnOrder'] ;
-                            // echo "<br>";
-                            // echo $Quantity;
-                            // echo "<br>";
- 
-                            // echo $UnitsInStock;
-                            // echo "<br>";
-                            // echo $UnitsOnOrder;
-                            // echo "<br>";
-                        
-                            // echo $query;
-                            // echo "<br>";
-
-                            $result = NULL;
-                            $result = $mysqlConnection->query($query);
-                            if (!$result) 
-                            {
-                                throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
-                            }                              
-                        }                        
-                    }
-
-                    // echo $OrderID;
-                    // echo "<br>";
-                    $multiQuery = "DELETE FROM `ORDERS` WHERE OrderID = $OrderID;
-                                            DELETE FROM `order details` WHERE OrderID = $OrderID;
-                    ";
-
-                    // echo $multiQuery;
-                    // echo "<br>";
-                    $result = NULL;
-                    $result = $mysqlConnection->multi_query($multiQuery);
-                    if (!$result) 
-                    {
-                    throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
-                    } else 
-                    {
-                        echo "<script>
-                            alert('Order Removed');
-                            window.location.href='customer-pendingOrder.php';
-                            </script>";
-                    }
-                 }
-              ?>
+              <?php   } }?>
               
             </div>
         </div>

@@ -180,7 +180,7 @@
                                     $ShipName = $AddressRow['ShipName'];
                                     $ShipAddress = $AddressRow['ShipAddress'];
                                     $ShipCity = $AddressRow['ShipCity'];
-                                    $ShipState = $AddressRow['ShipState'];
+                                    $ShipState = $AddressRow['ShipRegion'];
                                     $ShipPostalCode = $AddressRow['ShipPostalCode'];
                                     $ShipCountry = $AddressRow['ShipCountry'];
                                     echo "Name: $ShipName";
@@ -196,8 +196,7 @@
                                     echo "Country: $ShipCountry";
                                     echo "<br>"; 
                                 }else{
-                                    echo "Shipping Address is not added yet.";
-                                    echo "<br>"; 
+                                    require('WarningShippingAddress.php');
                                 }
 
 
@@ -232,7 +231,7 @@
                                                   </select>
                                             </div>
                                             <div class='form-group'>
-                                                  <label for='sel1'>Card Type</label>
+                                                  <label for='sel1'>Delivery Type</label>
                                                   <select class='form-control' name = 'DeliveryTypeID' id = 'sel1'>
                                                         <option value = '1'>Over Night</option>
                                                         <option value = '2'>Two Day</option>
@@ -319,6 +318,11 @@
                             if (!$result) {
                                 throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
                             } else {
+
+                                echo "<script>
+                                        alert('Address Added');
+                                        window.location.href='customer-EditAddress.php';
+                                        </script>";
 
                             }
                         }
