@@ -78,10 +78,46 @@
                             $count = $result -> num_rows;
                             echo "Total Items: $count";
                             echo "<br>";
-                            echo "-----------------------------------------------------";
-                            echo "<br>";
+                            
                             $array = array();
                             while($row = $result->fetch_assoc()) $array[] = $row;
+                            $query = "SELECT * FROM `Payment`
+                                        WHERE OrderID = '$OrderID' ";
+                            $result = NULL;
+                            $result = $mysqlConnection->query($query);
+                            if (!$result) {
+                                throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                            } else {
+                                $row = $result->fetch_assoc();
+                                $Total = $row['Total'];
+                                $PaymentTypeID = $row['PaymentTypeID'];
+                                switch ($PaymentTypeID) {
+                                    case 1 :
+                                        $PaymentType = "Android Pay";
+                                        break;
+                                    case 2 :
+                                        $PaymentType = "Apple Pay";
+                                        break;
+                                    case 3 :
+                                        $PaymentType = "Credit Card";
+                                        break;
+                                    case 4 :
+                                        $PaymentType = "Debit Card";
+                                        break;
+                                    case 5 :
+                                        $PaymentType = "Paypall";
+                                        break;
+                                    case 6 :
+                                        $PaymentType = "Bank Account";
+                                        break;
+                                }
+                                echo "Total Price: $Total";
+                                echo "<br>";
+                                echo "Payment Method: $PaymentType";
+                                echo "<br>";
+                                echo "-----------------------------------------------------";
+                                echo "<br>";
+                            }
                         }
                         foreach ( $array as $item ) {
                             $ProductID = $item['ProductID'];

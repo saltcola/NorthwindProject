@@ -182,34 +182,30 @@
                                 // echo $count;
                                 // echo "<br>";
                                 while($row = $result->fetch_assoc()) $array[] = $row;
+                                $NumProduts = $count;
+                                $ProductsCount = 0;
                                 $FinalPrice = 0;
 
                                 $checkout = False;
+                                $FianlCall = Fasle;
+
                                 if (!empty($_POST['Checkout']) && (!$checkout) ){
                                     $OrderDate = date("Y-m-d H:i:s");
+                                    $PaymentTypeID = $_POST['PaymentTypeID'];
                                     $query = "INSERT INTO `ORDERS`(CustomerID,OrderDate) VALUES ( '$CustomerID', '$OrderDate') ";
                                     $result = NULL;
                                     $result = $mysqlConnection->query($query);
                                     if (!$result) {
                                         throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
                                     } else {
-                                        $query = "SELECT OrderID FROM `ORDERS`
-                                                        WHERE CustomerID = '$CustomerID'
-                                                        AND OrderDate = '$OrderDate'
-                                        ";
-                                        $result = NULL;
-                                        $result = $mysqlConnection->query($query);
-                                        if (!$result) {
-                                        throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
-                                        } else {
-                                            $row = $result->fetch_assoc();
-                                            $OrderID = $row['OrderID'];
-                                            $checkout = True;
-                                        }
+                                        $OrderID = $mysqlConnection->insert_id;
+                                        $checkout = True;
+
                                     }
                                 }
 
                                 foreach ($array as $order) {
+                                    $ProductsCount = $ProductsCount +1;
                                     $id = $order['id'];                        
                                     $ProductID = $order['ProductID'];
                                     $RequireDate = $order['RequireDate'];
@@ -337,20 +333,43 @@
                                 $result = $mysqlConnection->query($query);
                                 if (!$result) {
                                 throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
-                                } else {
-                                    echo "<script>
-                                        alert('Order Placed');
-                                        window.location.href='customer-shoppingCart.php';
-                                        </script>";
                                 }
-
                             }
+                        }                        
+                   }
+                   if (!empty($_POST['Checkout']) && $checkout && $ProductsCount == $NumProduts ){
+                            $query = "INSERT INTO `Payment`(OrderID,Total, PaymentTypeID) VALUES ( '$OrderID', '$FinalPrice', '$PaymentTypeID') ";
 
+                            // echo $query;
+                            // echo "<br>";
+                            $result = NULL;
+                            $result = $mysqlConnection->query($query);
+                            if (!$result) {
+                            throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                            } else {
+
+                                echo "<script>
+                                    alert('Order Placed');
+                                    window.location.href='customer-shoppingCart.php';
+                                    </script>";
+                            }
                         }
-                   }} $mysqlConnection->close(); ?>
+               }
+                   $mysqlConnection->close(); ?>
             </table> 
             <h4> Total Price : $ <?php echo $FinalPrice ?> </h4>
             <form  class="form-inline" method = "post" >
+                <div class="form-group">
+                      <label for="sel1">Payment Type</label>
+                      <select class="form-control" name = "PaymentTypeID" id = "sel1">
+                            <option value = "1" >Android Pay</option>
+                            <option value = "2" >Apple Pay</option>
+                            <option value = "3" >Credit Card</option>
+                            <option value = "4" >Debit Card</option>
+                            <option value = "5" >PayPall</option>
+                            <option value = "6" >Bank Account</option>
+                      </select>
+                </div>
                 <input type="submit" class = "login-button" name="Checkout" value="Place Order" />
             </form>
             </div>
