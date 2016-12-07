@@ -137,7 +137,7 @@ if(!empty($_POST['add'])){
             $result = $mysqlConnection->query($query);
                 
             if(!$result){
-                
+                throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
             }else{
                 echo "<script>
                             alert('Product Added');
