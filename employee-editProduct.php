@@ -120,7 +120,7 @@
                 </div>
                 <div class="form-group">
                         <label>Units On Order: </label>
-                        <input type="text" class="form-control" name="UnitesOnOrder" placeholder="Units On Order" value= <?php echo $UnitsOnOrder ?> required/>
+                        <input type="text" class="form-control" name="UnitsOnOrder" placeholder="Units On Order" value= <?php echo $UnitsOnOrder ?> required/>
                 </div>
                 <div class="form-group">
                         <label>Reorder Level: </label>
@@ -133,9 +133,74 @@
                             <option value = "1" <?php if($Discontinued == 1 ) echo "SELECTED";?> >Yes</option>                            
                       </select>
                 </div>
-                <input type="submit" class = "login-button" name="add" value="Add" />
+                <input type="submit" class = "login-button" name="edit" value="Edit" />
                 <input class = "login-button" name="Back" type="submit" value="Cancel" /> 
             </form>
+            <?php 
+                if(!empty($_POST['Back'])){
+                    echo "<script>
+                                    
+                                    window.location.href='employee-main.php';
+                                    </script>"; 
+                exit;
+                }
+
+                if(!empty($_POST['edit'])){
+                    $ProductName = $_POST['ProductName'];
+                    $SupplierID = $_POST['SupplierID'];
+                    $CategoryID = $_POST['CategoryID'];
+                    $QuantityPerUnit = $_POST['CategoryID'];
+                    $UnitPrice = $_POST['UnitPrice'];
+                    $UnitsInStock = $_POST['UnitsInStock'];
+                    $UnitsOnOrder = $_POST['UnitsOnOrder'];
+                    $ReorderLevel = $_POST['ReorderLevel'];
+                    $Discontinued = $_POST['Discontinued'];
+
+                   // echo $ProductName ;
+                   // echo "<br>";
+                   //  echo $SupplierID ;
+                   //  echo "<br>";
+                   //  echo $CategoryID ;
+                   //  echo "<br>";
+                   //  echo $UnitPrice ;
+                   //  echo "<br>";
+                   //  echo $UnitsInStock ;
+                   //  echo "<br>";
+                   //  echo $UnitsOnOrder ;
+                   //  echo "<br>";
+                   //  echo $ReorderLevel;
+                   //  echo "<br>";                    
+                   //  echo $Discontinued ;
+                   //  echo "<br>";
+
+                    $query = "UPDATE `products`
+                                   SET ProductName  = '$ProductName',
+                                            SupplierID = '$SupplierID',
+                                            CategoryID = '$CategoryID',
+                                            UnitPrice = '$UnitPrice',
+                                            UnitsInStock = '$UnitsInStock',
+                                            UnitsOnOrder = '$UnitsOnOrder',
+                                            ReorderLevel = '$ReorderLevel',
+                                            Discontinued = '$Discontinued'
+                                    WHERE ProductID = '$ProductID'     
+                        ";
+
+                    // echo $query;
+                    // echo "<ba>";
+                    $result = NULL;
+                    $result = $mysqlConnection->query($query);
+                    if(!$result){
+                        throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                    }else{
+
+                        echo "<script type='text/javascript'>
+                            alert('Product Edited');
+                            window.location = 'employee-editProduct.php?id=".$ProductID." '
+                             </script>";               
+                    }
+
+                }
+            ?>   
             </div>
         </div>
     </div>
