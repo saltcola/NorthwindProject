@@ -57,7 +57,7 @@
             <div class="col-sm-3 employee-left">
                 <?php require('employee-left-button.php'); ?>
             </div>
-            <div class="col-sm-9 employee-right">
+            <div class="col-sm-8 employee-right">
             <form name="registration" action="" method="post">
                 <div class="form-group">
                         <label>ProductName: </label>

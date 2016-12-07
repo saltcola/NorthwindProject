@@ -26,11 +26,102 @@
 <body>
     <div class="continer" id = "Employee">
         <div class="row">
-            <div class="col-sm-4 employee-left">
+            <div class="col-sm-3 employee-left">
                 <?php require('employee-left-button.php'); ?>
             </div>
             <div class="col-sm-8 employee-right">
-              For inventory/purchasing
+              <?php 
+                require('db.php');
+                $query = "SELECT * FROM `products`
+                                WHERE UnitsInStock = 0
+                                ORDER BY Discontinued
+                ";
+                $result = NULL;
+                $result = $mysqlConnection->query($query);
+                if (!$result) {
+                        throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                } else {
+                        $array = array();
+                        while($row = $result->fetch_assoc()) $array[] = $row;
+                }
+            ?>
+
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th>Product Name</th>
+                    <th>Supplier</th>
+                    <th>Category</th>
+                    <th>Quantity Per Unit</th>
+                    <th>Unit Price</th>
+                    <th>In Stock</th>
+                    <th>Unite On Order</th>
+                    <th>Discontinued</th>
+                    <th>Reorder</th>
+<!--                         <th>Add to cart</th> -->
+                  </tr>
+                </thead>
+               
+                <?php foreach ($array as $product) { 
+                            $ProductID = $product['ProductID'];
+                            $ProductName = $product['ProductName'];
+                            $SupplierID = $product['SupplierID'];
+                            $CategoryID = $product['CategoryID'];
+                            $QuantityPerUnit = $product['QuantityPerUnit'];
+                            $UnitPrice = $product['UnitPrice'];
+                            $UnitsInStock = $product['UnitsInStock'];
+                            $UnitsOnOrder = $product['UnitsOnOrder'];
+                            $Discontinued = ($product['Discontinued'] == 1)?"True":"False";
+                            
+                            switch($CategoryID){
+                                case 1: $Category = "Beverages"; break;
+                                case 2: $Category = "Condiments"; break;
+                                case 3: $Category = "Confections"; break;
+                                case 4: $Category = "Dairy Products"; break;
+                                case 5: $Category = "Grains/Cereals"; break;
+                                case 6: $Category = "Meat/Poultry"; break;
+                                case 7: $Category = "Produce"; break;
+                                case 8: $Category = "Seafood"; break;
+                            }
+
+                            $searchQuery1 = "SELECT CompanyName FROM Company
+                                                        WHERE CompanyID = ' ".$SupplierID." '
+                            ";
+                            // echo $searchQuery1;
+
+                             require('db.php');
+                            $resultSup = NULL;
+                            $resultSup = $mysqlConnection->query($searchQuery1);
+                            if (!$resultSup) {
+                            throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                            } else {
+                                    $count = $resultSup -> num_rows;
+                                    $row = $resultSup->fetch_assoc();
+                                    // echo $count;
+                                    // echo "<br>";
+                            }
+                            $mysqlConnection->close();
+                ?>
+                 <tbody>
+                <tr>
+                    <td><?php echo $ProductName?></td>
+                    <td><?php echo $row['CompanyName']?></td>
+                    <td><?php echo $Category ?></td>
+                    <td><?php echo $QuantityPerUnit?></td>
+                    <td><?php echo $UnitPrice?></td>
+                    <td><?php echo $UnitsInStock?></td>
+                    <td><?php echo $UnitsOnOrder?></td>
+                    <td><?php echo $Discontinued?></td>
+                    <td>
+                        <?php 
+                        echo "<a href='employee-editProduct.php?id=".$ProductID." '> Reorder</a> ";
+                        ?>
+                    </td>
+                </tr>
+                </tbody>
+                    <?php } ?>
+                  
+            </table>  
             </div>
         </div>
     </div>

@@ -3,12 +3,12 @@
     //include("auth.php");
     session_start();
     if(!isset($_SESSION["username"])){
-        header("Location: login.php");
+        header("Location: employee-login.php");
         exit(); 
     }else{
-        require('db.php');
 
-        $username = $_SESSION["username"];
+    	require('db.php');
+        $username = $_GET['id'];
         $sqlUser = "SELECT * 
                             FROM customers
                             WHERE CustomerID = '$username' ";
@@ -21,11 +21,9 @@
         } else {
             $row = $result->fetch_assoc();
         }
-
-        $mysqlConnection->close();
-
     }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,7 +31,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Customer EditProfile</title>
+    <title>Edit Order</title>
     <!-- Local Css file -->
     <link rel="stylesheet" href="css/style.css" />
     <!-- Bootstrap -->
@@ -46,15 +44,13 @@
     <div class="continer">
         <div class="row">
             <div class="col-sm-3 employee-left">
-                <?php require('customer-left-button.php'); ?>
+                <?php require('employee-left-button.php'); ?>
             </div>
             <div class="col-sm-9 employee-right">
-
-            <?php
-                require('db.php');
+            	<?php
+                // require('db.php');
                 // If form submitted, insert values into the database.
-                if (isset($_REQUEST['username']) && !empty($_POST['submit'])){
-                    $username = $_POST['username'];
+                if (!empty($_POST['submit'])){
                     $email = $_POST['email'];
                     //$trn_date = date("Y-m-d H:i:s");
                     $fName = $_POST['fName'];
@@ -84,6 +80,8 @@
                                             Fax = '$fax'
                                     WHERE CustomerID = '$username' 
                                     ";
+                      // echo $query;
+                      // echo "<br>";
 
                     $result = NULL;
                     $result = $mysqlConnection->query($query);
@@ -91,7 +89,7 @@
                     if($result){
                         echo "<div class='form'>
                                     <h3>Profile updated.</h3>
-                                    <br/>Click here to <a href='customer-main.php'>Back</a></div>";
+                                    <br/>Click here to <a href ='employee-editCustomer.php?id=".$username." '> Back</a></div>";
                         }
                 }else{
             ?>
@@ -101,7 +99,7 @@
 
                         <div class="form-group">
                             <label>First Name</label>
-                            <input type="text" class="form-control"  name="Name" placeholder="First Name" value= <?php echo $row['fName'] ?> required />
+                            <input type="text" class="form-control"  name="fName" placeholder="First Name" value= <?php echo $row['fName'] ?> required />
                         </div>
 
                         <div class="form-group">
@@ -177,7 +175,7 @@
     <?php 
         if(!empty($_POST['Back'])){
             echo '<script type="text/javascript">
-                    window.location = "customer-main.php"
+                    window.location = "employee-main.php"
                      </script>';
         exit;
         }
@@ -186,5 +184,3 @@
         </div>
     </div>
 </body>
-
-</html>
