@@ -43,7 +43,7 @@
 </head>
 
 <body>
-    <div class="continer">
+    <div class="contine" r>
         <div class="row">
             <div class="col-sm-3 employee-left">
                 <?php require('customer-left-button.php'); ?>
@@ -101,12 +101,12 @@
 
                         <div class="form-group">
                             <label>First Name</label>
-                            <input type="text" class="form-control"  name="Name" placeholder="First Name" value= "<?php echo $row['fName'] ?> r"equired />
+                            <input type="text" class="form-control"  name="Name" placeholder="First Name" value= "<?php echo $row['fName'] ?> " required />
                         </div>
 
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input type="text" class="form-control"  name="lName" placeholder="Last Name" value= "<?php echo $row['lName'] ?> r"equired />
+                            <input type="text" class="form-control"  name="lName" placeholder="Last Name" value= "<?php echo $row['lName'] ?> " required />
                         </div>
 
                         <div class="form-group">
@@ -124,12 +124,12 @@
 
                         <div class="form-group">
                             <label>Username</label>
-                            <input type="text" name="username" class="form-control" placeholder="username" value= "<?php echo $row['CustomerID']" ?> disabled />
+                            <input type="text" name="username" class="form-control" placeholder="username" value= "<?php echo $row['CustomerID'] ?>" disabled />
                         </div>
 
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" name="email" class="form-control" placeholder="Email" value= "<?php echo $row['Email'] ?> r"equired />
+                            <input type="email" name="email" class="form-control" placeholder="Email" value= "<?php echo $row['Email'] ?> " required />
                         </div>
 
                         <div class="form-group">
@@ -164,7 +164,7 @@
 
                         <div class="form-group">
                             <label>Fax</label>
-                           <input type="text"  class="form-control" name="fax" placeholder="Fax" value= "<?php echo $row['Fax'] ?> req"uired />
+                           <input type="text"  class="form-control" name="fax" placeholder="Fax" value= "<?php echo $row['Fax'] ?>" required />
                         </div>
 
                         <input type="submit" class = "login-button"  name="submit" value="Edit" />
