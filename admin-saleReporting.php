@@ -246,43 +246,81 @@ if(!empty($_POST['SearchByCustomer'])){
     $Country = $_POST['Country'];
     $Region = $_POST['State'];
     $City = $_POST['City'];
-    $ContactName = $_POST['$ContactName'];
+    $ContactName = $_POST['ContactName'];
     // echo $Country;
     // echo "<br>";
     // echo $Region;
     // echo "<br>";
     // echo $City;
     // echo "<br>";
-    if($Country == "0"){
-        echo '<script type="text/javascript">
-                    alert("No Country Input!");
-                    window.location = "admin-saleReporting.php"
-                     </script>';
-            exit();
-    }else if($Country == "USA"){
-         if($Region == "0" && $City == "0"){
+    // echo $ContactName;
+    // echo "<br>";
+    if($ContactName == null ){
+            if($Country == "0"){
+                echo '<script type="text/javascript">
+                            alert("No Country & Name Input!");
+                            window.location = "admin-saleReporting.php"
+                             </script>';
+                exit();
+            }else if($Country == "USA"){
+                 if($Region == "0" && $City == "0"){
+                        $query = "SELECT * FROM `order details` WHERE OrderID IN (SELECT OrderID FROM `ORDERS` WHERE CustomerID IN(SELECT CustomerID FROM `customers` WHERE Country = '$Country')) ";
+                        require('admin-toArray.php');
+                 }else if($Region == "0"){
+                        $query = "SELECT * FROM `order details` WHERE OrderID IN (SELECT OrderID FROM `ORDERS` WHERE CustomerID IN(SELECT CustomerID FROM `customers` WHERE Country = '$Country' AND City = '$City' )) ";
+                        require('admin-toArray.php');
+                 }else if($City == "0"){
+                        $query = "SELECT * FROM `order details` WHERE OrderID IN (SELECT OrderID FROM `ORDERS` WHERE CustomerID IN(SELECT CustomerID FROM `customers` WHERE Country = '$Country' AND Region = '$Region')) ";
+                        require('admin-toArray.php');
+                 }else{
+                        $query = "SELECT * FROM `order details` WHERE OrderID IN (SELECT OrderID FROM `ORDERS` WHERE CustomerID IN(SELECT CustomerID FROM `customers` WHERE Country = '$Country' AND Region = '$Region' AND City = '$City' )) ";
+                        require('admin-toArray.php');
+                 }
+            }else if($Region == "0" && $City == "0"){
                 $query = "SELECT * FROM `order details` WHERE OrderID IN (SELECT OrderID FROM `ORDERS` WHERE CustomerID IN(SELECT CustomerID FROM `customers` WHERE Country = '$Country')) ";
                 require('admin-toArray.php');
-         }else if($Region == "0"){
-                $query = "SELECT * FROM `order details` WHERE OrderID IN (SELECT OrderID FROM `ORDERS` WHERE CustomerID IN(SELECT CustomerID FROM `customers` WHERE Country = '$Country' AND City = '$City' )) ";
+            }else{
+                echo '<script type="text/javascript">
+                            alert("Input City or State is not in USA!");
+                            window.location = "admin-saleReporting.php"
+                             </script>';
+                exit();
+            } 
+        }else{
+            if($Country == "0"){
+                $query = "SELECT * FROM `order details` WHERE OrderID IN (SELECT OrderID FROM `ORDERS` WHERE CustomerID IN(SELECT CustomerID FROM `customers` WHERE ContactName LIKE '%".$ContactName."%'
+                )) ";
                 require('admin-toArray.php');
-         }else if($City == "0"){
-                $query = "SELECT * FROM `order details` WHERE OrderID IN (SELECT OrderID FROM `ORDERS` WHERE CustomerID IN(SELECT CustomerID FROM `customers` WHERE Country = '$Country' AND Region = '$Region')) ";
+            }else if($Country == "USA"){
+                 if($Region == "0" && $City == "0"){
+                        $query = "SELECT * FROM `order details` WHERE OrderID IN (SELECT OrderID FROM `ORDERS` WHERE CustomerID IN(SELECT CustomerID FROM `customers` WHERE Country = '$Country' AND ContactName LIKE '%".$ContactName."%'
+                        )) ";
+                        require('admin-toArray.php');
+                 }else if($Region == "0"){
+                        $query = "SELECT * FROM `order details` WHERE OrderID IN (SELECT OrderID FROM `ORDERS` WHERE CustomerID IN(SELECT CustomerID FROM `customers` WHERE Country = '$Country' AND City = '$City' AND ContactName LIKE '%".$ContactName."%'
+                        )) ";
+                        require('admin-toArray.php');
+                 }else if($City == "0"){
+                        $query = "SELECT * FROM `order details` WHERE OrderID IN (SELECT OrderID FROM `ORDERS` WHERE CustomerID IN(SELECT CustomerID FROM `customers` WHERE Country = '$Country' AND Region = '$Region' AND ContactName LIKE '%".$ContactName."%'
+                        )) ";
+                        require('admin-toArray.php');
+                 }else{
+                        $query = "SELECT * FROM `order details` WHERE OrderID IN (SELECT OrderID FROM `ORDERS` WHERE CustomerID IN(SELECT CustomerID FROM `customers` WHERE Country = '$Country' AND Region = '$Region' AND City = '$City' AND ContactName LIKE '%".$ContactName."%'
+                        )) ";
+                        require('admin-toArray.php');
+                 }
+            }else if($Region == "0" && $City == "0"){
+                $query = "SELECT * FROM `order details` WHERE OrderID IN (SELECT OrderID FROM `ORDERS` WHERE CustomerID IN(SELECT CustomerID FROM `customers` WHERE Country = '$Country' AND ContactName LIKE '%".$ContactName."%'
+                )) ";
                 require('admin-toArray.php');
-         }else{
-                $query = "SELECT * FROM `order details` WHERE OrderID IN (SELECT OrderID FROM `ORDERS` WHERE CustomerID IN(SELECT CustomerID FROM `customers` WHERE Country = '$Country' AND Region = '$Region' AND City = '$City' )) ";
-                require('admin-toArray.php');
-         }
-    }else if($Region == "0" && $City == "0"){
-        $query = "SELECT * FROM `order details` WHERE OrderID IN (SELECT OrderID FROM `ORDERS` WHERE CustomerID IN(SELECT CustomerID FROM `customers` WHERE Country = '$Country')) ";
-        require('admin-toArray.php');
-    }else{
-        echo '<script type="text/javascript">
-                    alert("Input City or State is not in USA!");
-                    window.location = "admin-saleReporting.php"
-                     </script>';
-        exit();
-    }  
+            }else{
+                echo '<script type="text/javascript">
+                            alert("Input City or State is not in USA!");
+                            window.location = "admin-saleReporting.php"
+                             </script>';
+                exit();
+            }
+        } 
 }
 
 
@@ -335,17 +373,23 @@ if(!empty($_POST['SearchByCustomer'])){
                                 $CustomerID = $row['CustomerID'];
                                 $ShipViaID = $row['ShipVia'];
 
+                                // echo $ShipViaID;
+                                // echo "<br>";
+
                                 switch ($ShipViaID) {
                                     case 1:
                                         $ShipVia = "Speedy Express";
                                         break;
-                                    case 1:
+                                    case 2:
                                         $ShipVia = "United Package";
                                         break;
-                                    case 1:
+                                    case 3:
                                         $ShipVia = "Federal Shipping";
                                         break;
                                 }
+
+                                // echo $ShipVia;
+                                // echo "<br>";
 
                                 $searchQuery1 = "SELECT * FROM `customers` WHERE CustomerID = '$CustomerID'
                                 ";
