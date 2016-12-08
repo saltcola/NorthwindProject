@@ -6,6 +6,47 @@
     if(!isset($_SESSION["username"])){
         header("Location: admin-login.php");
         exit(); 
+    }else{
+
+        $query = "SELECT country_name FROM `apps_countries` ";
+        $result = NULL;
+        $result = $mysqlConnection->query($query);
+        $array = array();
+        if (!$result) {
+            throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+        } else {
+            $count = $result -> num_rows;
+            // echo $count;
+            // echo "<br>";
+            while($row = $result->fetch_assoc()) $arrayCountries[] = $row;
+        }
+
+        $query = "SELECT DISTINCT city FROM `cities` ";
+        $result = NULL;
+        $result = $mysqlConnection->query($query);
+        $array = array();
+        if (!$result) {
+            throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+        } else {
+            $count = $result -> num_rows;
+            // echo $count;
+            // echo "<br>";
+            while($row = $result->fetch_assoc()) $arrayCities[] = $row;
+        }
+
+        $query = "SELECT DISTINCT state_code FROM `cities` ";
+        $result = NULL;
+        $result = $mysqlConnection->query($query);
+        $array = array();
+        if (!$result) {
+            throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+        } else {
+            $count = $result -> num_rows;
+            // echo $count;
+            // echo "<br>";
+            while($row = $result->fetch_assoc()) $arrayStates[] = $row;
+        }
+
     }
 
 ?>
@@ -16,7 +57,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin</title>
+    <title>Admin Sales Reports</title>
     <!-- Local Css file -->
     <link rel="stylesheet" href="css/style.css" />
     <!-- Bootstrap -->
@@ -65,9 +106,9 @@
                                 <select class="form-control" name = "Country" id = "sel1" >
                                     <option value="0">0-Country</option>
                                 <?php 
-                                    $query = "SELECT country_name FROM `apps_countries` ";
-                                    require('admin-toArray.php');
-                                    foreach($array as $country){
+                                    // $query = "SELECT country_name FROM `apps_countries` ";
+                                    // require('admin-toArray.php');
+                                    foreach($arrayCountries as $country){
                                         $country_name = $country['country_name'];
                                         echo "<option >$country_name</option> ";
                                     }
@@ -78,9 +119,9 @@
                                 <select class="form-control" name = "State" id = "sel1">
                                     <option value="0">0-State In USA</option>
                                 <?php 
-                                    $query = "SELECT DISTINCT state_code FROM `cities` ";
-                                    require('admin-toArray.php');
-                                    foreach($array as $state){
+                                    // $query = "SELECT DISTINCT state_code FROM `cities` ";
+                                    // require('admin-toArray.php');
+                                    foreach($arrayStates as $state){
                                         $state_code = $state['state_code'];
                                         echo "<option  >$state_code</option> ";
                                     }
@@ -91,9 +132,9 @@
                                 <select class="form-control" name = "City" id = "sel1">
                                 <option value="0">0-City In USA</option>
                                 <?php 
-                                    $query = "SELECT DISTINCT city FROM `cities` ";
-                                    require('admin-toArray.php');
-                                    foreach($array as $city){
+                                    // $query = "SELECT DISTINCT city FROM `cities` ";
+                                    // require('admin-toArray.php');
+                                    foreach($arrayCities as $city){
                                         $city = $city['city'];
                                         echo "<option  >$city</option> ";
                                     }
@@ -121,9 +162,9 @@
                                 <select class="form-control" name = "Country" id = "sel1" >
                                     <option value="0">0-Country</option>
                                 <?php 
-                                    $query = "SELECT country_name FROM `apps_countries` ";
-                                    require('admin-toArray.php');
-                                    foreach($array as $country){
+                                    // $query = "SELECT country_name FROM `apps_countries` ";
+                                    // require('admin-toArray.php');
+                                    foreach($arrayCountries as $country){
                                         $country_name = $country['country_name'];
                                         echo "<option >$country_name</option> ";
                                     }
@@ -134,9 +175,9 @@
                                 <select class="form-control" name = "State" id = "sel1">
                                     <option value="0">0-State In USA</option>
                                 <?php 
-                                    $query = "SELECT DISTINCT state_code FROM `cities` ";
-                                    require('admin-toArray.php');
-                                    foreach($array as $state){
+                                    // $query = "SELECT DISTINCT state_code FROM `cities` ";
+                                    // require('admin-toArray.php');
+                                    foreach($arrayStates as $state){
                                         $state_code = $state['state_code'];
                                         echo "<option  >$state_code</option> ";
                                     }
@@ -147,9 +188,9 @@
                                 <select class="form-control" name = "City" id = "sel1">
                                 <option value="0">0-City In USA</option>
                                 <?php 
-                                    $query = "SELECT DISTINCT city FROM `cities` ";
-                                    require('admin-toArray.php');
-                                    foreach($array as $city){
+                                    // $query = "SELECT DISTINCT city FROM `cities` ";
+                                    // require('admin-toArray.php');
+                                    foreach($arrayCities as $city){
                                         $city = $city['city'];
                                         echo "<option  >$city</option> ";
                                     }
