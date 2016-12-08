@@ -164,10 +164,70 @@
                 </div>
 
                 <div class = "payment-box">
-                  <form method="post">
-                    <div class="form-group">
-                            <label>Search By Product</label>
-                    </div>
+                    <label>Search By Product</label>
+                    <form  method="post">
+                        <div class = "form-group row">
+                            <div class = "col-sm-5">
+                                <input type="text" name="ProductName" class="form-control" placeholder="Product Name"/>
+                            </div>
+                        </div>
+                        
+                        <div class = "row">
+                            <div class = "col-sm-3">
+                                <input type="text" name="UnitsInStock" class="form-control" placeholder="Units In Stock"/>
+                            </div>
+                            <div class = "col-sm-3">
+                                <select class="form-control" name = "SupplierID" id = "sel1">
+                                    <option value = "0">0-Supplier Company</option>
+                                    <option value = "1">Exotic Liquids</option>
+                                    <option value = "2">New Orleans Cajun Delights</option>
+                                    <option value = "3">Grandma Kelly's Homestead</option>
+                                    <option value = "4">Tokyo Traders</option>
+                                    <option value = "5">Cooperativa de Quesos 'Las Cabras'</option>
+                                    <option value = "6">Mayumi's</option>
+                                    <option value = "7">Pavlova, Ltd.</option>
+                                    <option value = "8">Specialty Biscuits, Ltd.</option>
+                                    <option value = "9">PB Knckebrd AB</option>
+                                    <option value = "10">Refrescos Americanas LTDA</option>
+                                    <option value = "11">Heli Swaren GmbH & Co. KG</option>
+                                    <option value = "12">Plutzer Lebensmittelgromrkte AG</option>
+                                    <option value = "13">Nord-Ost-Fisch Handelsgesellschaft mbH</option>
+                                    <option value = "14">Formaggi Fortini s.r.l.</option>
+                                    <option value = "15">Norske Meierier</option>
+                                    <option value = "16">Bigfoot Breweries</option>
+                                    <option value = "17">Svensk Sjfda AB</option>
+                                    <option value = "18">Aux joyeux ecclsiastiques</option>
+                                    <option value = "19">New England Seafood Cannery</option>
+                                    <option value = "20">Leka Trading</option>
+                                    <option value = "21">Lyngbysild</option>
+                                    <option value = "22">Zaanse Snoepfabriek</option>
+                                    <option value = "23">Karkki Oy</option>
+                                    <option value = "24">G'day, Mate</option>
+                                    <option value = "25">Ma Maison</option>
+                                    <option value = "26">Pasta Buttini s.r.l.</option>
+                                    <option value = "27">Escargots Nouveaux</option>
+                                    <option value = "28">Gai pturage</option>
+                                    <option value = "29">Forts d'rables</option>
+                              </select>
+                            </div>
+                            <div class = "col-sm-3">
+                                <select class="form-control" name = "Category" id = "sel1">
+                                            <option value = "0">0-Category</option>
+                                            <option value = "1">1-Beverages</option>
+                                            <option value = "2">2-Condiments</option>
+                                            <option value = "3">3-Confections</option>
+                                            <option value = "4">4-Dairy Products</option>
+                                            <option value = "5">5-Grains/Cereals</option>
+                                            <option value = "6">6-Meat/Poultry</option>
+                                            <option value = "7">7-Produce</option>
+                                            <option value = "8">8-Seafood</option>
+                                      </select>
+                                </select>
+                            </div>
+                            <div class = "col-sm-2">
+                                    <input type="submit" name="SearchByProduct" value="Search" />
+                                </div>
+                        </div>
                     </form>
                 </div>
 
@@ -176,6 +236,60 @@
 
 <?php 
 $array = array();
+
+if(!empty($_POST['SearchByProduct'])){
+
+    $UnitsInStock = $_POST['UnitsInStock'];
+    $ProductName = $_POST['ProductName'];
+    $SupplierID = $_POST['SupplierID'];
+    $CategoryID = $_POST['Category'];
+
+    if($Category != 0){
+        $Category_str = "WHERE  CategoryID = '$CategoryID' ";
+        $Supplier_str = ($SupplierID == "0")? "":"AND SupplierID = '$SupplierID' ";
+        $UnitsInStock_str = ($UnitsInStock == null)?"":"AND UnitsInStock = '$UnitsInStock' ";
+        $ProductName_str = ($ProductName == null)?"":"AND ProductName LIKE '%".$ProductName."%' ";
+
+        $query = "SELECT * FROM `order details` WHERE ProductID IN (SELECT ProductID FROM `products` ".$Category_str.$Supplier_str.$UnitsInStock_str.$ProductName_str."
+        )";
+        // echo $query;
+        require('admin-toArray.php');
+    }else {
+        if($Supplier_str != 0){
+            $Supplier_str = "WHERE SupplierID = '$SupplierID' ";
+            $UnitsInStock_str = ($UnitsInStock == null)?"":"AND UnitsInStock = '$UnitsInStock' ";
+            $ProductName_str = ($ProductName == null)?"":"AND ProductName LIKE '%".$ProductName."%' ";
+            $query = "SELECT * FROM `order details` WHERE ProductID IN (SELECT ProductID FROM `products` ".$Supplier_str.$UnitsInStock_str.$ProductName_str."
+            )";
+            // echo $query;
+            require('admin-toArray.php');
+        }else{
+            if($UnitsInStock != null ){
+                $UnitsInStock_str = "WHERE UnitsInStock = '$UnitsInStock' ";
+                $ProductName_str = ($ProductName == null)?"":"AND ProductName LIKE '%".$ProductName."%' ";
+                $query = "SELECT * FROM `order details` WHERE ProductID IN (SELECT ProductID FROM `products` ".$UnitsInStock_str.$ProductName_str."
+                )";
+                // echo $query;
+                require('admin-toArray.php');
+            }else{
+                if($ProductName != null){
+                    $ProductName_str = "WHERE ProductName LIKE '%".$ProductName."%' ";
+                    $query = "SELECT * FROM `order details` WHERE ProductID IN (SELECT ProductID FROM `products` ".$ProductName_str."
+                    )";
+                    // echo $query;
+                    require('admin-toArray.php');
+                }else{
+                    echo '<script type="text/javascript">
+                    alert("No Input!");
+                    window.location = "admin-saleReporting.php"
+                     </script>';
+                    exit();
+                }
+            }
+        }
+    }
+}
+
 
 
 if(!empty($_POST['SearchByTime'])){
@@ -337,12 +451,13 @@ if(!empty($_POST['SearchByCustomer'])){
                         <th>Order By</th>
                         <th>Customer Location</th>
                         <th>Product Name</th>
+                        <th>Category</th>
                         <th>Supplier Name</th>
+                        <th>ShipTo</th>
+                        <th>ShipBy</th>
                         <th>Unit Price</th>
                         <th>Total Units Sold</th>
-                        <th>Total Price Sold</th>
-                        <th>ShipTo<th>
-                        <th>ShipBy<th>
+                        <th>Total Price Sold</th>                        
                       </tr>
                     </thead>
                    
@@ -411,7 +526,7 @@ if(!empty($_POST['SearchByCustomer'])){
 
 
 
-                                $searchQuery1 = "SELECT ProductName, SupplierID FROM `products` WHERE ProductID = '$ProductID'
+                                $searchQuery1 = "SELECT ProductName, SupplierID,CategoryID FROM `products` WHERE ProductID = '$ProductID'
                                 ";
                                 // echo $searchQuery1;
                                 
@@ -430,6 +545,7 @@ if(!empty($_POST['SearchByCustomer'])){
                                 $TotalPrice = $UnitPrice * $Quantity*(1-$Discount);
 
                                 $SupplierID = $row['SupplierID'];
+                                $CategoryID = $row['CategoryID'];
 
                                 $searchQuery1 = "SELECT CompanyName FROM `Company` WHERE CompanyID = '$SupplierID'
                                 ";
@@ -491,18 +607,20 @@ if(!empty($_POST['SearchByCustomer'])){
                         <td><?php echo $ContactName ?></td>
                         <td><?php echo $Location ?></td>
                         <td><?php echo $ProductName  ?></td>
+                        <td><?php echo $CategoryID  ?></td>
                         <td><?php echo $CompanyName  ?></td>
-                        <td><?php echo $UnitPrice ?></td>
-                        <td><?php echo $Quantity ?></td>
-                        <td><?php echo $TotalPrice ?></td>
                         <td><?php echo $ShipTo ?></td>
                         <td><?php echo $ShipVia ?></td>
+                        <td><?php echo $UnitPrice ?></td>
+                        <td><?php echo $Quantity ?></td>
+                        <td><?php echo $TotalPrice ?></td>                        
                     </tr>
                     </tbody>
                         <?php } ?>
                       
                 </table>  
             </div>
+            <div class = "col-sm-1"></div>
         </div>
     </div>
 </body>
