@@ -5,21 +5,6 @@
     if(!isset($_SESSION["username"])){
         header("Location: admin-login.php");
         exit(); 
-    }else{
-        require('db.php');
-        $EmployeeID = $_GET['id'];
-        $sqlUser = "SELECT * 
-                            FROM employees
-                            WHERE EmployeeID = '$EmployeeID' ";
-        
-        $result = NULL;
-        $result = $mysqlConnection->query($sqlUser);
-
-        if (!$result) {
-            throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
-        } else {
-            $row = $result->fetch_assoc();
-        }
     }
 ?>
 <!DOCTYPE html>
@@ -29,7 +14,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin</title>
+    <title>Add Employee</title>
     <!-- Local Css file -->
     <link rel="stylesheet" href="css/style.css" />
     <!-- Bootstrap -->
@@ -39,14 +24,14 @@
 </head>
 
 <body>
-    <div class="continer">
+    <div class="continer" id = "Employee">
         <div class="row">
-            <div class="col-sm-4 employee-left">
-                <?php require('admin-left-button.php') ?>
+            <div class="col-sm-3 employee-right">
+                <?php require('admin-left-button.php'); ?>
             </div>
             <div class="col-sm-8 employee-right">
                 <?php
-                // require('db.php');
+                require('db.php');
                 // If form submitted, insert values into the database.
                 if (!empty($_POST['submit'])){
                     $FirstName = $_POST['FirstName'];
@@ -65,23 +50,9 @@
                     $HomePhone = $_POST['HomePhone'];
                     $Salary = $_POST['Salary'];
 
-                    $query = "UPDATE `employees`
-                                    SET FirstName = '$FirstName',
-                                    LastName = '$LastName',
-                                    Title = '$Title',
-                                    TitleOfCourtesy = '$TitleOfCourtesy',
-                                    BirthDate = '$Birthday',
-                                    HireDate = '$HireDate',
-                                    username = '$username',
-                                    Address = '$address',
-                                    City = '$city',
-                                    Region = '$state',
-                                    PostalCode = '$postalCode',
-                                    Country = '$country',
-                                    HomePhone = '$HomePhone',
-                                    Salary = '$Salary'
-                                    WHERE EmployeeID = '$EmployeeID'
-                    ";
+                    $query = "INSERT into `employees` (FirstName, LastName, Title, TitleOfCourtesy, BirthDate, HireDate, username, password, Address, City, Region, PostalCode, Country, HomePhone, Salary)
+            VALUES ('$FirstName', '$LastName', '$Title', '$TitleOfCourtesy', '$Birthday', '$HireDate', 
+            '$username', '$password','$address', '$city', '$state', '$postalCode', '$country', '$HomePhone', '$Salary')";
 
 
                     
@@ -95,7 +66,7 @@
                     if($result){
                         echo "<div class='form'>
                                     <h3>Profile updated.</h3>
-                                    <br/>Click here to <a href='admin-listEmployee.php'>Back</a></div>";
+                                    <br/>Click here to <a href='admin-main.php'>Back</a></div>";
                         }
                 }else{
             ?>
@@ -105,77 +76,84 @@
 
                         <div class="form-group">
                             <label>First Name</label>
-                            <input type="text" class="form-control"  name="FirstName" placeholder="First Name" value = "<?php echo $row['FirstName']; ?>"  />
+                            <input type="text" class="form-control"  name="FirstName" placeholder="First Name"  required />
                         </div>
 
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input type="text" class="form-control"  name="LastName" placeholder="Last Name" value = "<?php echo $row['LastName']; ?>" />
+                            <input type="text" class="form-control"  name="LastName" placeholder="Last Name"  required />
                         </div>
 
                         <div class="form-group">
                             <label>Title</label>
-                            <input type="text" class="form-control"  name="Title" placeholder="Title" value = "<?php echo $row['Title']; ?>" />
+                            <input type="text" class="form-control"  name="Title" placeholder="Title"  required />
                         </div>
 
                         <div class="form-group">
                             <label>Title Of Courtesy</label>
-                            <input type="text" class="form-control"  name="TitleOfCourtesy" placeholder="Title Of Courtesy" value = "<?php echo $row['TitleOfCourtesy']; ?>" />
+                            <input type="text" class="form-control"  name="TitleOfCourtesy" placeholder="Title Of Courtesy"  required />
                         </div>
 
                         <div class="form-group">
                             <label>Birthday</label>
-                            <input type="datetime-local" class="form-control"  name="Birthdate" placeholder="Birthday" value = <?php echo date("Y-m-d\TH:i:s", strtotime($row['BirthDate'])) ; ?>  />
+                            <input type="datetime-local" class="form-control"  name="Birthdate" placeholder="Birthday"  required />
                         </div>
 
                         <div class="form-group">
                             <label>Hire Date</label>
-                            <input type="datetime-local" class="form-control"  name="HireDate" value = <?php echo date("Y-m-d\TH:i:s", strtotime($row['HireDate'])) ; ?>   />
+                            <input type="datetime-local" class="form-control"  name="HireDate" placeholder="Hire Date"  required />
                         </div>
 
                         <div class="form-group">
                             <label>Username</label>
-                            <input type="text" name="username" class="form-control" placeholder="username" value = "<?php echo $row['username']; ?> " />
+                            <input type="text" name="username" class="form-control" placeholder="username"  required />
+                        </div>
+
+                        <div class="form-group">
+                                <label>Password: </label>
+                                <input type="password" class="form-control" name="password" placeholder="Password" required />
                         </div>
 
                         <div class="form-group">
                             <label>Address</label>
-                            <input type="text" name="address"  class="form-control"  placeholder="Address" value = "<?php echo $row['Address']; ?> " />
+                            <input type="text" name="address"  class="form-control"  placeholder="Address" required />
                         </div>               
 
                         <div class="form-group">
                             <label>City</label>
-                            <input type="text" class="form-control" name="city" placeholder="City" value = "<?php echo $row['City']; ?>"  /> </div>
+                            <input type="text" class="form-control" name="city" placeholder="City" </div>
 
                         <div class="form-group">
                             <label>State</label>
-                            <input type="text" class="form-control" name="state" placeholder="State" value = "<?php echo $row['State']; ?>" /> </div>
+                            <input type="text" class="form-control" name="state" placeholder="State"  </div>
 
                         <div class="form-group">
                             <label>Country</label>
-                            <input type="text" class="form-control" name="country" placeholder="Country"  value = "<?php echo $row['Country']; ?>"  />
+                            <input type="text" class="form-control" name="country" placeholder="Country"  required />
                         </div>
 
                         <div class="form-group">
                             <label>Zip Code</label>
-                            <input type="text" class="form-control" name="postalCode" placeholder="Post Code" value = "<?php echo $row['postalCode']; ?>"  />                
+                            <input type="text" class="form-control" name="postalCode" placeholder="Post Code"  required />                
                         </div>
 
                         <div class="form-group">
                             <label>HomePhone</label>
-                            <input type="text" class="form-control" name="HomePhone" placeholder="Phone" value = "<?php echo $row['HomePhone']; ?>"  />
+                            <input type="text" class="form-control" name="HomePhone" placeholder="Phone"  required />
                         </div>  
                         <div class="form-group">
                             <label>Salary</label>
-                            <input type="text" class="form-control" name="Salary" placeholder="Salary" value = "<?php echo $row['Salary']; ?> " />
+                            <input type="text" class="form-control" name="Salary" placeholder="Salary"  required />
                         </div>                     
 
-                        <input type="submit" class = "login-button"  name="submit" value="Edit" />
+                        <input type="submit" class = "login-button"  name="submit" value="Add" />
+                        <input type='reset' class = "login-button" value='Clear Form' /> 
 
                     </form>
                 </div>
             </div>
     <?php } ?> 
+
             </div>
         </div>
     </div>

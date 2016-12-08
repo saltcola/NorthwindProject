@@ -60,7 +60,7 @@
                     $state = $_POST['state'];
                     $postalCode = $_POST['postalCode'];
                     $country = $_POST['country'];
-                    $HomePhone = $_POST['phone'];
+                    $HomePhone = $_POST['HomePhone'];
 
 
                     $query = "UPDATE `employees` 

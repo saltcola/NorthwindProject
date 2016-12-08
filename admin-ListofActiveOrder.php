@@ -26,16 +26,63 @@
 <body>
     <div class="continer">
         <div class="row">
-            <div class="col-sm-4 employee-left">
+            <div class="col-sm-3 employee-left">
                 <?php require('admin-left-button.php') ?>
             </div>
             <div class="col-sm-8 employee-right">
-              For lisf of active customer order
-                <button type="button" class="list-group-item">...</button>
-                <button type="button" class="list-group-item">...</button>
-                <button type="button" class="list-group-item">...</button>
-                <button type="button" class="list-group-item">...</button>
-                <button type="button" class="list-group-item">...</button>
+              <?php 
+                // search for active order
+                require('db.php');
+                    
+                    $query = "SELECT * FROM `ORDERS` 
+                                    WHERE EmployeeID IS NULL ";
+                    // echo $query;
+                    // echo "<br>";
+                    $result = NULL;
+                    $result = $mysqlConnection->query($query);
+                    $array = array();
+                    if (!$result) {
+                        throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                    } else {
+                        $count = $result -> num_rows;
+                        // echo $count;
+                        // echo "<br>";
+                        while($row = $result->fetch_assoc()) $array[] = $row;
+                    }
+                    if($count == 0){
+                        echo "
+                        <h2> There is no active order right now.</h2>
+                        ";
+                    }
+              ?>
+
+              <ul class="list-group">
+                <?php foreach($array as $order) { 
+                        $OrderID = $order['OrderID'];
+
+                        $query = "SELECT * FROM `order details`
+                                        WHERE OrderID = '$OrderID' ";
+                        $result = NULL;
+                        $result = $mysqlConnection->query($query);
+                        if (!$result) {
+                            throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+                        } else {
+                            $count = $result -> num_rows;
+                        }
+
+
+                    
+                    echo " <a href='admin-editOrder.php?id=".$OrderID." '>
+                                    <li class='list-group-item'> 
+                                        OrderID: '$OrderID' 
+                                        <span class='badge'> 
+                                            Total Items: '$count'
+                                        </span>
+                                    </li>
+                                </a>";
+
+                } ?>
+              </ul>
             </div>
         </div>
     </div>

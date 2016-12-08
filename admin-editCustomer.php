@@ -3,12 +3,12 @@
     //include("auth.php");
     session_start();
     if(!isset($_SESSION["username"])){
-        header("Location: login.php");
+        header("Location: admin-login.php");
         exit(); 
     }else{
-        require('db.php');
 
-        $username = $_SESSION["username"];
+    	require('db.php');
+        $username = $_GET['id'];
         $sqlUser = "SELECT * 
                             FROM customers
                             WHERE CustomerID = '$username' ";
@@ -21,11 +21,9 @@
         } else {
             $row = $result->fetch_assoc();
         }
-
-        $mysqlConnection->close();
-
     }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,7 +31,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Customer EditProfile</title>
+    <title>Edit Order</title>
     <!-- Local Css file -->
     <link rel="stylesheet" href="css/style.css" />
     <!-- Bootstrap -->
@@ -46,15 +44,13 @@
     <div class="continer">
         <div class="row">
             <div class="col-sm-3 employee-left">
-                <?php require('customer-left-button.php'); ?>
+                <?php require('admin-left-button.php'); ?>
             </div>
             <div class="col-sm-9 employee-right">
-
-            <?php
-                require('db.php');
+            	<?php
+                // require('db.php');
                 // If form submitted, insert values into the database.
-                if (isset($_REQUEST['username']) && !empty($_POST['submit'])){
-                    $username = $_POST['username'];
+                if (!empty($_POST['submit'])){
                     $email = $_POST['email'];
                     //$trn_date = date("Y-m-d H:i:s");
                     $fName = $_POST['fName'];
@@ -84,6 +80,8 @@
                                             Fax = '$fax'
                                     WHERE CustomerID = '$username' 
                                     ";
+                      // echo $query;
+                      // echo "<br>";
 
                     $result = NULL;
                     $result = $mysqlConnection->query($query);
@@ -91,7 +89,7 @@
                     if($result){
                         echo "<div class='form'>
                                     <h3>Profile updated.</h3>
-                                    <br/>Click here to <a href='customer-main.php'>Back</a></div>";
+                                    <br/>Click here to <a href ='admin-editCustomer.php?id=".$username." '> Back</a></div>";
                         }
                 }else{
             ?>
@@ -101,12 +99,12 @@
 
                         <div class="form-group">
                             <label>First Name</label>
-                            <input type="text" class="form-control"  name="Name" placeholder="First Name" value= "<?php echo $row['fName'] ?> r"equired />
+                            <input type="text" class="form-control"  name="fName" placeholder="First Name" value= "<?php echo $row['fName'] ?>"  />
                         </div>
 
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input type="text" class="form-control"  name="lName" placeholder="Last Name" value= "<?php echo $row['lName'] ?> r"equired />
+                            <input type="text" class="form-control"  name="lName" placeholder="Last Name" value= "<?php echo $row['lName'] ?> " />
                         </div>
 
                         <div class="form-group">
@@ -124,47 +122,47 @@
 
                         <div class="form-group">
                             <label>Username</label>
-                            <input type="text" name="username" class="form-control" placeholder="username" value= "<?php echo $row['CustomerID']" ?> disabled />
+                            <input type="text" name="username" class="form-control" placeholder="username" value= "<?php echo $row['CustomerID'] ?> "disabled />
                         </div>
 
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" name="email" class="form-control" placeholder="Email" value= "<?php echo $row['Email'] ?> r"equired />
+                            <input type="email" name="email" class="form-control" placeholder="Email" value= "<?php echo $row['Email'] ?>"  />
                         </div>
 
                         <div class="form-group">
                             <label>Address</label>
-                            <input type="text" name="address"  class="form-control"  placeholder="Address" value= "<?php echo $row['Address'] ?>  " required />
+                            <input type="text" name="address"  class="form-control"  placeholder="Address" value= "<?php echo $row['Address'] ?>  "  />
                         </div>               
 
                         <div class="form-group">
                             <label>City</label>
-                            <input type="text" class="form-control" name="city" placeholder="City" value= "<?php echo $row['City'] ?> re"quired />
+                            <input type="text" class="form-control" name="city" placeholder="City" value= "<?php echo $row['City'] ?>"  />
                         </div>
 
                         <div class="form-group">
                             <label>State</label>
-                            <input type="text" class="form-control" name="state" placeholder="State" value= "<?php echo $row['Region'] ?> "required />
+                            <input type="text" class="form-control" name="state" placeholder="State" value= "<?php echo $row['Region'] ?>"  />
                         </div>
 
                         <div class="form-group">
                             <label>Country</label>
-                            <input type="text" class="form-control" name="country" placeholder="Country" value= "<?php echo $row['Country'] ?>" required />
+                            <input type="text" class="form-control" name="country" placeholder="Country" value= "<?php echo $row['Country'] ?>"  />
                         </div>
 
                         <div class="form-group">
                             <label>Zip Code</label>
-                            <input type="text" class="form-control" name="postalCode" placeholder="Post Code" value= <?php echo $row['PostalCode'] ?> required />                
+                            <input type="text" class="form-control" name="postalCode" placeholder="Post Code" value= "<?php echo $row['PostalCode'] ?>"  />                
                         </div>
 
                         <div class="form-group">
                             <label>Phone</label>
-                            <input type="text" class="form-control" name="phone" placeholder="Phone" value= <?php echo $row['Phone'] ?> required />
+                            <input type="text" class="form-control" name="phone" placeholder="Phone" value= "<?php echo $row['Phone'] ?>"  />
                         </div>
 
                         <div class="form-group">
                             <label>Fax</label>
-                           <input type="text"  class="form-control" name="fax" placeholder="Fax" value= "<?php echo $row['Fax'] ?> req"uired />
+                           <input type="text"  class="form-control" name="fax" placeholder="Fax" value= "<?php echo $row['Fax'] ?>"  />
                         </div>
 
                         <input type="submit" class = "login-button"  name="submit" value="Edit" />
@@ -177,7 +175,7 @@
     <?php 
         if(!empty($_POST['Back'])){
             echo '<script type="text/javascript">
-                    window.location = "customer-main.php"
+                    window.location = "employee-main.php"
                      </script>';
         exit;
         }
@@ -186,5 +184,3 @@
         </div>
     </div>
 </body>
-
-</html>

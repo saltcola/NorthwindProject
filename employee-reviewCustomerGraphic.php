@@ -152,12 +152,30 @@
                                 <input type="submit" name="SearchByCountry" value="Search" />
                             </div>
                         </div>
+                    </div>
+                    <div class="form-group">                       
+                        <input type="submit" name="SearchAll" value="List All" />
                     </div>                    
                 </form>
             </div> <!--div for right side -->
 <?php 
 require('db.php');
 $array = array();
+if(!empty($_POST['SearchAll'])){
+    $query = "SELECT * FROM `customers` ";
+    $result = NULL;
+    $result = $mysqlConnection->query($query);
+    $array = array();
+    if (!$result) {
+        throw new Exception("Database Error [{$this->database->errno}] {$this->database->error}");
+    } else {
+        $count = $result -> num_rows;
+        // echo $count;
+        // echo "<br>";
+        while($row = $result->fetch_assoc()) $array[] = $row;
+    }
+
+}
 if(!empty($_POST['SearchByFirstName'])){
     $fName = $_POST['FirstName'];
     $query = "SELECT * FROM `customers` WHERE fName LIKE '%".$fName."%' ";

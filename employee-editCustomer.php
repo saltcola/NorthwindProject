@@ -99,12 +99,12 @@
 
                         <div class="form-group">
                             <label>First Name</label>
-                            <input type="text" class="form-control"  name="fName" placeholder="First Name" value= <?php echo $row['fName'] ?> required />
+                            <input type="text" class="form-control"  name="fName" placeholder="First Name" value= "<?php echo $row['fName'] ?>"  />
                         </div>
 
                         <div class="form-group">
                             <label>Last Name</label>
-                            <input type="text" class="form-control"  name="lName" placeholder="Last Name" value= <?php echo $row['lName'] ?> required />
+                            <input type="text" class="form-control"  name="lName" placeholder="Last Name" value= "<?php echo $row['lName'] ?> " />
                         </div>
 
                         <div class="form-group">
@@ -122,52 +122,51 @@
 
                         <div class="form-group">
                             <label>Username</label>
-                            <input type="text" name="username" class="form-control" placeholder="username" value= <?php echo $row['CustomerID'] ?> disabled />
+                            <input type="text" name="username" class="form-control" placeholder="username" value= "<?php echo $row['CustomerID'] ?> "disabled />
                         </div>
 
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" name="email" class="form-control" placeholder="Email" value= <?php echo $row['Email'] ?> required />
+                            <input type="email" name="email" class="form-control" placeholder="Email" value= "<?php echo $row['Email'] ?>"  />
                         </div>
 
                         <div class="form-group">
                             <label>Address</label>
-                            <input type="text" name="address"  class="form-control"  placeholder="Address" value= "<?php echo $row['Address'] ?>  " required />
+                            <input type="text" name="address"  class="form-control"  placeholder="Address" value= "<?php echo $row['Address'] ?>  "  />
                         </div>               
 
                         <div class="form-group">
                             <label>City</label>
-                            <input type="text" class="form-control" name="city" placeholder="City" value= <?php echo $row['City'] ?> required />
+                            <input type="text" class="form-control" name="city" placeholder="City" value= "<?php echo $row['City'] ?>"  />
                         </div>
 
                         <div class="form-group">
                             <label>State</label>
-                            <input type="text" class="form-control" name="state" placeholder="State" value= <?php echo $row['Region'] ?> required />
+                            <input type="text" class="form-control" name="state" placeholder="State" value= "<?php echo $row['Region'] ?>"  />
                         </div>
 
                         <div class="form-group">
                             <label>Country</label>
-                            <input type="text" class="form-control" name="country" placeholder="Country" value= <?php echo $row['Country'] ?> required />
+                            <input type="text" class="form-control" name="country" placeholder="Country" value= "<?php echo $row['Country'] ?>"  />
                         </div>
 
                         <div class="form-group">
                             <label>Zip Code</label>
-                            <input type="text" class="form-control" name="postalCode" placeholder="Post Code" value= <?php echo $row['PostalCode'] ?> required />                
+                            <input type="text" class="form-control" name="postalCode" placeholder="Post Code" value= "<?php echo $row['PostalCode'] ?>"  />                
                         </div>
 
                         <div class="form-group">
                             <label>Phone</label>
-                            <input type="text" class="form-control" name="phone" placeholder="Phone" value= <?php echo $row['Phone'] ?> required />
+                            <input type="text" class="form-control" name="phone" placeholder="Phone" value= "<?php echo $row['Phone'] ?>"  />
                         </div>
 
                         <div class="form-group">
                             <label>Fax</label>
-                           <input type="text"  class="form-control" name="fax" placeholder="Fax" value= <?php echo $row['Fax'] ?> required />
+                           <input type="text"  class="form-control" name="fax" placeholder="Fax" value= "<?php echo $row['Fax'] ?>"  />
                         </div>
 
                         <input type="submit" class = "login-button"  name="submit" value="Edit" />
                         <input class = "login-button" name="Back" type="submit" value="Cancel" />
-
                     </form>
                 </div>
             </div>
