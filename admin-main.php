@@ -26,11 +26,11 @@
 <body>
     <div class="continer">
         <div class="row">
-            <div class="col-sm-4 employee-left">
+            <div class="col-sm-3 employee-left">
                 <?php require('admin-left-button.php') ?>
             </div>
-            <div class="col-sm-8 employee-right">
-              For Admin Information
+            <div class="col-sm-9 employee-right">
+              <h4>Administrator Panel</h4>
             </div>
         </div>
     </div>
